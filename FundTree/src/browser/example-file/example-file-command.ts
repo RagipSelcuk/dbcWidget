@@ -1,5 +1,5 @@
 import { SingleTextInputDialog } from '@theia/core/lib/browser/dialogs';
-import { ILogger } from '@theia/core/lib/common';
+import { ILogger, MessageService } from '@theia/core/lib/common';
 import { BinaryBuffer } from '@theia/core/lib/common/buffer';
 import { Command } from '@theia/core/lib/common/command';
 import URI from '@theia/core/lib/common/uri';
@@ -25,7 +25,9 @@ export class NewTreeExampleFileCommandHandler implements SingleUriCommandHandler
         @inject(ILogger)
         protected readonly logger: ILogger,
         @inject(WorkspaceService)
-        protected readonly workspaceService: WorkspaceService
+        protected readonly workspaceService: WorkspaceService,
+        @inject(MessageService)
+        protected readonly messageService: MessageService
     ) { }
     
     isEnabled() {
@@ -60,6 +62,9 @@ export class NewTreeExampleFileCommandHandler implements SingleUriCommandHandler
                 .then(_ => this.openerService.getOpener(fileUri))
                 .then(openHandler => openHandler.open(fileUri));
         }
+
+        this.messageService.info('Al sana nöh!!!');  // @RS: Message service added into this class and used with this sample
+        
     }
 }
 

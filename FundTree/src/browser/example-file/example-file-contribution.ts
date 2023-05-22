@@ -33,11 +33,11 @@ export class NewTreeExampleFileCommandContribution implements CommandContributio
 export class NewTreeExampleFileMenuContribution implements MenuContribution {
 
     registerMenus(menus: MenuModelRegistry): void {
-        menus.registerSubmenu(TREE_EDITOR_MAIN_MENU, 'Tree Editor');
+        menus.registerSubmenu(TREE_EDITOR_MAIN_MENU, 'Tree Editor'); // Main Menu Visible Name as "Tree Editor"
 
         menus.registerMenuAction(TREE_EDITOR_MAIN_MENU, {
             commandId: NewTreeExampleFileCommand.id,
-            label: 'New Example File'
+            label: 'New Example File'   // Sub-Menu visible name assignment as " New Example File"
         });
     }
 }
