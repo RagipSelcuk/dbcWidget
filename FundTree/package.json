@@ -1,0 +1,34 @@
+{
+  "name": "FundTree",
+  "keywords": [
+    "theia-extension"
+  ],
+  "version": "0.0.0",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "dependencies": {
+    "@theia/core": "latest",
+    "@theia/editor": "latest",
+    "@theia/filesystem": "latest",
+    "@theia/workspace": "latest",
+    "@eclipse-emfcloud/theia-tree-editor": "next",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "rimraf": "latest",
+    "typescript": "~4.5.5"
+  },
+  "scripts": {
+    "prepare": "yarn run clean && yarn run build",
+    "clean": "rimraf lib",
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "theiaExtensions": [
+    {
+      "frontend": "lib/browser/FundTree-frontend-module"
+    }
+  ]
+}
