@@ -15,8 +15,13 @@ import { TreeLabelProviderContribution } from './tree-label-provider-contributio
 import { NewTreeExampleFileCommandHandler } from './example-file/example-file-command';
 import { NewTreeExampleFileCommandContribution, NewTreeExampleFileMenuContribution } from './example-file/example-file-contribution';
 import { createBasicTreeContainer, NavigatableTreeEditorOptions } from '@eclipse-emfcloud/theia-tree-editor';
+import { minExtensionCommandContribution, minExtensionMenuContribution } from './example-file/minExtension-contribution';
 
 export default new ContainerModule(bind => {
+
+    bind(CommandContribution).to(minExtensionCommandContribution);
+    bind(MenuContribution).to(minExtensionMenuContribution);
+    
     // Bind Theia IDE contributions for the example file creation menu entry.
     bind(NewTreeExampleFileCommandHandler).toSelf();
     bind(CommandContribution).to(NewTreeExampleFileCommandContribution);
