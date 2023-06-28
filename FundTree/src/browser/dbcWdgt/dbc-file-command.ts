@@ -5,6 +5,8 @@ import { inject, injectable } from "@theia/core/shared/inversify";
 import { FileDialogService, OpenFileDialogProps } from "@theia/filesystem/lib/browser";
 import { FileService } from "@theia/filesystem/lib/browser/file-service";
 import { WorkspaceService } from "@theia/workspace/lib/browser";
+//import Dbc from "../dbc/Dbc";
+
 
 
 
@@ -40,7 +42,9 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
         @inject(MessageService)
         protected readonly messageService: MessageService,
         @inject(FileDialogService)
-        protected readonly fileDialogService: FileDialogService
+        protected readonly fileDialogService: FileDialogService,
+        @inject(FileSystem)
+        protected readonly fileSystem: FileSystem
     ) { }
     
     	
@@ -67,13 +71,19 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
         
         
         const extensionUri = await this.fileDialogService.showOpenDialog(properties);
-        let dbcContent;
+        
+   //     let dbcContent;
         if(extensionUri)
         {
 			
 			if(extensionUri.path.ext == '.dbc')
 			{
-				 dbcContent = this.fileService.readFileStream(extensionUri);
+			//	dbcContent = this.fileService.read(extensionUri);
+				 //dbcContent = this.fileService.readFileStream(extensionUri);
+				 //dbcContent = this.fileService.readFile(extensionUri);
+				 //dbcContent = this.fileService.readStream(extensionUri);
+				 //dbcContent = this.fileSystem.readFileSync(extensionUri, { encoding: 'ascii' });
+				 
 			
 				this.messageService.info('Dialog is opened');
 				
@@ -84,8 +94,10 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
 			}
 
 		}
-		dbcContent
-        
+	//	const dbc = new Dbc();
+	//	const data = dbc.load(dbcContent);
+		
+		
         
         
         
