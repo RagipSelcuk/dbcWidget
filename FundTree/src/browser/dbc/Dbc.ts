@@ -19,7 +19,7 @@ import {
   ValueTable,
 } from './DbcTypes';
 import Writer from './DbcWriter';
-import { MessageDoesNotExist, SignalDoesNotExist } from './Errors';
+import { MessageDoesNotExist, SignalDoesNotExist } from './DbcErrors';
 
 
 /**
