@@ -4,7 +4,10 @@ import { WorkspaceRootUriAwareCommandHandler } from '@theia/workspace/lib/browse
 import { WorkspaceService } from '@theia/workspace/lib/browser';
 import { NewTreeExampleFileCommandHandler, NewTreeExampleFileCommand } from './example-file-command';
 
+
+
 const TREE_EDITOR_MAIN_MENU = [...MAIN_MENU_BAR, '9_treeeditormenu'];
+
 
 @injectable()
 export class NewTreeExampleFileCommandContribution implements CommandContribution {
@@ -33,11 +36,16 @@ export class NewTreeExampleFileCommandContribution implements CommandContributio
 export class NewTreeExampleFileMenuContribution implements MenuContribution {
 
     registerMenus(menus: MenuModelRegistry): void {
+		
+		
         menus.registerSubmenu(TREE_EDITOR_MAIN_MENU, 'Tree Editor'); // Main Menu Visible Name as "Tree Editor"
+
 
         menus.registerMenuAction(TREE_EDITOR_MAIN_MENU, {
             commandId: NewTreeExampleFileCommand.id,
             label: 'New Example File'   // Sub-Menu visible name assignment as " New Example File"
         });
+        
+        
     }
 }

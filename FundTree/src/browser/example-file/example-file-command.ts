@@ -47,7 +47,7 @@ export class NewTreeExampleFileCommandHandler implements SingleUriCommandHandler
             return;
         }
 
-        const targetUri = dir.resource.resolve('tree-example.tree');
+        const targetUri = dir.resource.resolve('dbc_sample.tree');
         const preliminaryFileUri = FileSystemUtils.generateUniqueResourceURI(dir, targetUri, false);
         const dialog = new SingleTextInputDialog({
             title: 'New Example File',
@@ -75,13 +75,13 @@ const defaultData = {
         {
             "typeId": "ControlUnit",
             "processor": {
-                "socketconnectorType": "A1T",
+                "socketconnectorType": "RS",
                 "manufactoringProcess": "18nm",
-                "thermalDesignPower": 10,
+                "thermalDesignPower": 100,
                 "numberOfCores": 2,
-                "clockSpeed": 800,
-                "vendor": "CMD",
-                "advancedConfiguration": true
+                "clockSpeed": 900,
+                "vendor": "ECEM",
+                "advancedConfiguration": false
             },
             "display": {
                 "width": 70,

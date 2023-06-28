@@ -15,17 +15,23 @@ import { TreeLabelProviderContribution } from './tree-label-provider-contributio
 import { NewTreeExampleFileCommandHandler } from './example-file/example-file-command';
 import { NewTreeExampleFileCommandContribution, NewTreeExampleFileMenuContribution } from './example-file/example-file-contribution';
 import { createBasicTreeContainer, NavigatableTreeEditorOptions } from '@eclipse-emfcloud/theia-tree-editor';
-import { minExtensionCommandContribution, minExtensionMenuContribution } from './example-file/minExtension-contribution';
+import { DbcFileCommandContribution, DbcFileMenuContribution } from './dbcWdgt/dbc-file-contribution';
+import { DbcFileCommandHandler } from './dbcWdgt/dbc-file-command';
+
 
 export default new ContainerModule(bind => {
 
-    bind(CommandContribution).to(minExtensionCommandContribution);
-    bind(MenuContribution).to(minExtensionMenuContribution);
+	// Bind Theia IDE contributions for the DBC File creation menu entry
+	bind(DbcFileCommandHandler).toSelf();
+	bind(CommandContribution).to(DbcFileCommandContribution);
+	bind(MenuContribution).to(DbcFileMenuContribution);
+	
+	
     
     // Bind Theia IDE contributions for the example file creation menu entry.
     bind(NewTreeExampleFileCommandHandler).toSelf();
     bind(CommandContribution).to(NewTreeExampleFileCommandContribution);
-    bind(MenuContribution).to(NewTreeExampleFileMenuContribution)
+    bind(MenuContribution).to(NewTreeExampleFileMenuContribution);
 
     // Bind Theia IDE contributions for the tree editor.
     bind(LabelProviderContribution).to(TreeLabelProviderContribution);
