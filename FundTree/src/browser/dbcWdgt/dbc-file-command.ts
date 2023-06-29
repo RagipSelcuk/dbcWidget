@@ -5,6 +5,7 @@ import { inject, injectable } from "@theia/core/shared/inversify";
 import { FileDialogService, OpenFileDialogProps } from "@theia/filesystem/lib/browser";
 import { FileService } from "@theia/filesystem/lib/browser/file-service";
 import { WorkspaceService } from "@theia/workspace/lib/browser";
+import Dbc from "../dbc/Dbc";
 //import Dbc from "../dbc/Dbc";
 
 
@@ -70,32 +71,39 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
         
         const extensionUri = await this.fileDialogService.showOpenDialog(properties);
         
-   //     let dbcContent;
+        let dbcContent = 'string';
         if(extensionUri)
         {
 			
 			if(extensionUri.path.ext == '.dbc')
 			{
+				
 			//	dbcContent = this.fileService.read(extensionUri);
 				 //dbcContent = this.fileService.readFileStream(extensionUri);
 				 //dbcContent = this.fileService.readFile(extensionUri);
 				 //dbcContent = this.fileService.readStream(extensionUri);
 				 //dbcContent = this.fileSystem.readFileSync(extensionUri, { encoding: 'ascii' });
-				 
+				 dbcContent = (await this.fileService.read(extensionUri)).value;
+				this.messageService.info('Dialog is opened: ',extensionUri.toString()); 
 			
-				this.messageService.info('Dialog is opened');
+				
 				
 			}
 			else{
-				this.messageService.error('The selected file is not a valid "*.dbc"');
+				this.messageService.info('The selected file is not a valid "*.dbc"');
 				return;				
 			}
 
 		}
-	//	const dbc = new Dbc();
-	//	const data = dbc.load(dbcContent);
 		
-		
+		const dbc = new Dbc();
+		let data = dbc.load(dbcContent,false);
+		if(data.valueTables){
+			this.messageService.info('Value tables ...');
+		}
+		else{
+			this.messageService.info('ValueTables are unusable...');
+		}
         
         
         
@@ -103,7 +111,7 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
         
         
         		
-
+		this.messageService.info('End of Dbc File Command handler');
    
 	}
 		
