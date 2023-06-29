@@ -42,9 +42,7 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
         @inject(MessageService)
         protected readonly messageService: MessageService,
         @inject(FileDialogService)
-        protected readonly fileDialogService: FileDialogService,
-        @inject(FileSystem)
-        protected readonly fileSystem: FileSystem
+        protected readonly fileDialogService: FileDialogService
     ) { }
     
     	
