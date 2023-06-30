@@ -63,7 +63,7 @@ export class NewTreeExampleFileCommandHandler implements SingleUriCommandHandler
                 .then(openHandler => openHandler.open(fileUri));
         }
 
-        this.messageService.info('Al sana nöh!!!');  // @RS: Message service added into this class and used with this sample
+        
         
     }
 }

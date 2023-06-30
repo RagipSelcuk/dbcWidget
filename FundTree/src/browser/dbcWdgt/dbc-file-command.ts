@@ -77,41 +77,29 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
 			
 			if(extensionUri.path.ext == '.dbc')
 			{
-				
-			//	dbcContent = this.fileService.read(extensionUri);
-				 //dbcContent = this.fileService.readFileStream(extensionUri);
-				 //dbcContent = this.fileService.readFile(extensionUri);
-				 //dbcContent = this.fileService.readStream(extensionUri);
-				 //dbcContent = this.fileSystem.readFileSync(extensionUri, { encoding: 'ascii' });
 				 dbcContent = (await this.fileService.read(extensionUri)).value;
-				this.messageService.info('Dialog is opened: ',extensionUri.toString()); 
-			
-				
-				
 			}
 			else{
-				this.messageService.info('The selected file is not a valid "*.dbc"');
+				this.messageService.error('The selected file is not a valid "*.dbc"');
 				return;				
 			}
 
 		}
 		
 		const dbc = new Dbc();
-		let data = dbc.load(dbcContent,false);
-		if(data.valueTables){
-			this.messageService.info('Value tables ...');
-		}
-		else{
-			this.messageService.info('ValueTables are unusable...');
-		}
+		const data = dbc.load(dbcContent,false);
+
+		data.description = '';
+        
+        this.messageService.info('Dbc Raw data',data.description)
         
         
-        
+        this.logger.info('DBC JSON Formatted : ',dbc.toJson({pretty: true}))
         
         
         
         		
-		this.messageService.info('End of Dbc File Command handler');
+		
    
 	}
 		
