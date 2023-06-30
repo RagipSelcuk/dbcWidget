@@ -21,17 +21,17 @@ import { DbcFileCommandHandler } from './dbcWdgt/dbc-file-command';
 
 export default new ContainerModule(bind => {
 
-	// Bind Theia IDE contributions for the DBC File creation menu entry
+	// Bind Theia IDE contributions for the DBC File reading menu entry
 	bind(DbcFileCommandHandler).toSelf();
 	bind(CommandContribution).to(DbcFileCommandContribution);
 	bind(MenuContribution).to(DbcFileMenuContribution);
-	
-	
     
     // Bind Theia IDE contributions for the example file creation menu entry.
     bind(NewTreeExampleFileCommandHandler).toSelf();
     bind(CommandContribution).to(NewTreeExampleFileCommandContribution);
     bind(MenuContribution).to(NewTreeExampleFileMenuContribution);
+
+
 
     // Bind Theia IDE contributions for the tree editor.
     bind(LabelProviderContribution).to(TreeLabelProviderContribution);
