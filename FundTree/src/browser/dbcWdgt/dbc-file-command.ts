@@ -94,7 +94,7 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
         this.messageService.info('Dbc Raw data',data.description)
         
         
-        this.logger.info('DBC JSON Formatted : ',dbc.toJson({pretty: true}))
+       // this.logger.info('DBC JSON Formatted : ',dbc.toJson({pretty: true}))
         
         
         

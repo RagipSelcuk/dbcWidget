@@ -43,7 +43,7 @@ export class DbcEditorWidget extends ResourceTreeEditorWidget{
     }	
 	
 	protected getTypeProperty(): string {
-		return "messages";
+		return "typeId";
 	}
 	
 }
