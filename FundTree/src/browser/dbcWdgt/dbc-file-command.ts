@@ -1,5 +1,6 @@
 import { Command, ILogger, MessageService, URI } from "@theia/core";
 import { OpenerService } from "@theia/core/lib/browser";
+import { BinaryBuffer } from "@theia/core/lib/common/buffer";
 import { SingleUriCommandHandler } from "@theia/core/lib/common/uri-command-handler";
 import { inject, injectable } from "@theia/core/shared/inversify";
 import { FileDialogService, OpenFileDialogProps } from "@theia/filesystem/lib/browser";
@@ -70,14 +71,40 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
         
         
         const extensionUri = await this.fileDialogService.showOpenDialog(properties);
+        const targetUri = dir.resource.resolve('dbc_template.dbc');
+        
+        this.logger.info('Target Uri Address: ',targetUri);
+        
         
         let dbcContent = 'string';
         if(extensionUri)
         {
-			
+				
 			if(extensionUri.path.ext == '.dbc')
 			{
-				 dbcContent = (await this.fileService.read(extensionUri)).value;
+				
+			this.logger.info('File dir',extensionUri.toString(true));
+			
+			// read the dbc as a string value
+			dbcContent = (await this.fileService.read(extensionUri)).value;
+			const dbc = new Dbc();
+			const rawData = dbc.load(dbcContent,false);
+			this.logger.info('DBC Raw Data',rawData.description);
+			dbc.toJson({pretty: true});
+			const contentBuffer = BinaryBuffer.fromString(dbc.toJson({pretty: true}));
+            this.fileService.createFile(targetUri, contentBuffer)
+                .then(_ => this.openerService.getOpener(targetUri))
+                .then(openHandler => openHandler.open(targetUri));
+			
+			
+			// save as a json format
+			
+			// open and gather the uri address
+							
+				
+				
+				
+				 
 			}
 			else{
 				this.messageService.error('The selected file is not a valid "*.dbc"');
@@ -86,19 +113,10 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
 
 		}
 		
-		const dbc = new Dbc();
-		const data = dbc.load(dbcContent,false);
-
-		data.description = '';
         
-        this.messageService.info('Dbc Raw data',data.description)
+      	
         
-        
-       // this.logger.info('DBC JSON Formatted : ',dbc.toJson({pretty: true}))
-        
-        
-        
-        		
+        	
 		
    
 	}

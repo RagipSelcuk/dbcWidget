@@ -12,7 +12,7 @@ import { TreeNodeFactory } from './tree/tree-node-factory';
 import { TreeEditorWidget } from './tree/tree-editor-widget';
 import { TreeLabelProvider } from './tree/tree-label-provider';
 import { TreeLabelProviderContribution } from './tree-label-provider-contribution';
-import { NewTreeExampleFileCommandHandler } from './example-file/example-file-command';
+import { NewTreeExampleFileCommandHandler, OpenExampleFileCommandHandler } from './example-file/example-file-command';
 import { NewTreeExampleFileCommandContribution, NewTreeExampleFileMenuContribution } from './example-file/example-file-contribution';
 import { createBasicTreeContainer, NavigatableTreeEditorOptions } from '@eclipse-emfcloud/theia-tree-editor';
 import { DbcFileCommandContribution, DbcFileMenuContribution } from './dbcWdgt/dbc-file-contribution';
@@ -62,7 +62,10 @@ export default new ContainerModule(bind => {
     bind(NewTreeExampleFileCommandHandler).toSelf();
     bind(CommandContribution).to(NewTreeExampleFileCommandContribution);
     bind(MenuContribution).to(NewTreeExampleFileMenuContribution);
-
+	// Open File
+	bind(OpenExampleFileCommandHandler).toSelf();
+	
+	
 
     // Bind Theia IDE contributions for the tree editor.
     bind(LabelProviderContribution).to(TreeLabelProviderContribution);

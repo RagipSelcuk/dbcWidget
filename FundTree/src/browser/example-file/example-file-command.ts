@@ -15,6 +15,11 @@ export const NewTreeExampleFileCommand: Command = {
     label: 'New Tree Example File'
 };
 
+export const OpenTreeExampleFileCommand: Command ={
+	id: 'FundTree-tree.openExampleFile',
+	label: 'Open Example File'
+}
+
 @injectable()
 export class NewTreeExampleFileCommandHandler implements SingleUriCommandHandler {
     constructor(
@@ -63,6 +68,60 @@ export class NewTreeExampleFileCommandHandler implements SingleUriCommandHandler
                 .then(openHandler => openHandler.open(fileUri));
         }
 
+        
+        
+    }
+}
+
+
+
+@injectable()
+export class OpenExampleFileCommandHandler implements SingleUriCommandHandler {
+    constructor(
+        @inject(OpenerService)
+        protected readonly openerService: OpenerService,
+        @inject(FileService)
+        protected readonly fileService: FileService,
+        @inject(ILogger)
+        protected readonly logger: ILogger,
+        @inject(WorkspaceService)
+        protected readonly workspaceService: WorkspaceService,
+        @inject(MessageService)
+        protected readonly messageService: MessageService
+    ) { }
+    
+    isEnabled() {
+        return this.workspaceService.opened;
+    }
+
+    async execute(uri: URI) {
+        const stat = await this.fileService.resolve(uri);
+        if (!stat) {
+            this.logger.error(`[OpenExampleFileCommandHandler] Could not create file stat for uri`, uri);
+            return;
+        }
+
+        const dir = stat.isDirectory ? stat : await this.fileService.resolve(uri.parent);
+        if (!dir) {
+            this.logger.error(`[OpenExampleFileCommandHandler] Could not create file stat for uri`, uri.parent);
+            return;
+        }
+
+        const targetUri = dir.resource.resolve('dbc_sample.tree');
+        const preliminaryFileUri = FileSystemUtils.generateUniqueResourceURI(dir, targetUri, false);
+        const dialog = new SingleTextInputDialog({
+            title: 'Open Example File',
+            initialValue: preliminaryFileUri.path.base
+        });
+
+        const fileName = await dialog.open();
+        if (fileName) {
+            const fileUri = dir.resource.resolve(fileName);
+			 this.openerService.getOpener(fileUri).then(openHandler => openHandler.open(fileUri));
+			 this.logger.info('File Uri:',fileUri.toString(true));
+        }
+
+        this.logger.info('File Name',fileName);
         
         
     }
