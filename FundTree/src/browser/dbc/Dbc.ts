@@ -136,6 +136,7 @@ class Dbc {
     }
 
     const message: Message = {
+	  typeId : 'Message',	
       name,
       id,
       extended,
@@ -647,6 +648,7 @@ class Dbc {
 
   initDbcDataObj(): DbcData {
     return {
+	  typeId: 'Machine',	
       version: null,
       messages: new Map(),
       description: null,

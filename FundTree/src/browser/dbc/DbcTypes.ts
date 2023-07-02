@@ -58,6 +58,7 @@ export type TxMessages = string[];
 export type CanId = number;
 export type NetworkBridges = Map<CanId, TxMessages>;
 export type DbcData = {
+  typeId: string,	
   version: string | null;
   messages: Map<string, Message>;
   description: string | null;
@@ -107,6 +108,7 @@ export type AdditionalMessageOptions = {
   description?: string;
 };
 export type Message = {
+  typeId: string;	
   name: string;
   id: number;
   extended: boolean;

@@ -1,7 +1,7 @@
 import { TreeEditor } from "@eclipse-emfcloud/theia-tree-editor";
 import { ILogger } from "@theia/core";
 import { inject, injectable } from "@theia/core/shared/inversify";
-import { dbcSchema, messagesView, signalsView } from "./dbc-schema";
+import { dbcSchema, machineView, messagesView, signalsView } from "./dbc-schema";
 import { DbcModel } from "./dbc-model";
 
 
@@ -44,10 +44,12 @@ export class DbcModelService implements TreeEditor.ModelService{
     getUiSchemaForNode(node: TreeEditor.Node) {
         const type = node.jsonforms.type;
         switch (type) {
-            case DbcModel.Type.Messages:
+            case DbcModel.Type.Message:
                 return messagesView;
             case DbcModel.Type.Signals:
                 return signalsView;
+            case DbcModel.Type.Machine:
+				return machineView;    
             default:
                 this.logger.warn("Can't find registered ui schema for type " + type);
                 return undefined;

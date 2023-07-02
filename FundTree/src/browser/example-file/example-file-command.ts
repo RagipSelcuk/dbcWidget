@@ -129,7 +129,7 @@ export class OpenExampleFileCommandHandler implements SingleUriCommandHandler {
 
 const defaultData = {
     "typeId": "Machine",
-    "name": "Super Coffee 4000",
+    "name": "Super Coffee 4000",    
     "children": [
         {
             "typeId": "ControlUnit",

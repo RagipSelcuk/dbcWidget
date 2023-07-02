@@ -5,6 +5,7 @@ import { SingleUriCommandHandler } from "@theia/core/lib/common/uri-command-hand
 import { inject, injectable } from "@theia/core/shared/inversify";
 import { FileDialogService, OpenFileDialogProps } from "@theia/filesystem/lib/browser";
 import { FileService } from "@theia/filesystem/lib/browser/file-service";
+import { FileSystemUtils } from "@theia/filesystem/lib/common";
 import { WorkspaceService } from "@theia/workspace/lib/browser";
 import Dbc from "../dbc/Dbc";
 
@@ -72,9 +73,9 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
         
         const extensionUri = await this.fileDialogService.showOpenDialog(properties);
         const targetUri = dir.resource.resolve('dbc_template.dbc');
-        
+        const preliminaryFileUri = FileSystemUtils.generateUniqueResourceURI(dir, targetUri, false);
         this.logger.info('Target Uri Address: ',targetUri);
-        
+        this.logger.info('Preliminary File Uri: ',preliminaryFileUri)
         
         let dbcContent = 'string';
         if(extensionUri)
@@ -92,9 +93,9 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
 			this.logger.info('DBC Raw Data',rawData.description);
 			dbc.toJson({pretty: true});
 			const contentBuffer = BinaryBuffer.fromString(dbc.toJson({pretty: true}));
-            this.fileService.createFile(targetUri, contentBuffer)
-                .then(_ => this.openerService.getOpener(targetUri))
-                .then(openHandler => openHandler.open(targetUri));
+            this.fileService.createFile(preliminaryFileUri, contentBuffer)
+                .then(_ => this.openerService.getOpener(preliminaryFileUri))
+                .then(openHandler => openHandler.open(preliminaryFileUri));
 			
 			
 			// save as a json format

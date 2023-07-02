@@ -5,7 +5,7 @@ export const messagesView ={
     {
       'type': 'Control',
       'label': 'Messages',
-      'scope': '#/properties/messages'
+      'scope': '#/properties/name'
     }
   ]
 };
@@ -21,11 +21,36 @@ export const signalsView = {
   ]	
 };
 
+export const machineView = {
+  'type': 'VerticalLayout',
+  'elements': [
+    {
+      'type': 'Control',
+      'label': 'Version',
+      'scope': '#/properties/version'
+    }
+  ]
+};
 
 
 
 export const dbcSchema = {
 	'definitions':{
+    'machine': {
+      'title': 'Machine',
+      'properties': {
+        'typeId': {
+          'const': 'Machine'
+        },
+        'version': {
+          'type': 'string',
+          'minLength': 3,
+          'maxLength': 20
+        }
+      },
+      'additionalProperties': false
+    },
+		
 		'messages':{
 			'title': 'Messages',
 			'properties':{
@@ -50,5 +75,6 @@ export const dbcSchema = {
 			},
 			'additionalProperties': false			
 		}
-	}	
+	},	
+	'$ref': '#/definitions/messages'
 };
