@@ -3,6 +3,7 @@ import { ILogger } from "@theia/core";
 import { inject, injectable } from "@theia/core/shared/inversify";
 import { v4 } from "uuid";
 import { DbcEditorWidget } from "./dbc-editor-widget";
+import { DbcLabelProvider } from "./dbc-label-provider";
 import { DbcModel } from "./dbc-model";
 
 
@@ -11,7 +12,7 @@ import { DbcModel } from "./dbc-model";
 export class DbcNodeFactory implements TreeEditor.NodeFactory{
 	
     constructor(
-     //   @inject(TreeLabelProvider) private readonly labelProvider: TreeLabelProvider,
+        @inject(DbcLabelProvider) private readonly labelProvider: DbcLabelProvider,
         @inject(ILogger) private readonly logger: ILogger) {
     }	
 	
@@ -32,7 +33,7 @@ export class DbcNodeFactory implements TreeEditor.NodeFactory{
         const node: TreeEditor.Node = {
             ...this.defaultNode(),
             editorId: DbcEditorWidget.WIDGET_ID,
-            name: 'None',
+            name: this.labelProvider.getName(data)!,
             parent: parent,
             jsonforms: {
                 type: this.getTypeId(data),

@@ -3,9 +3,9 @@ import { ApplicationShell, OpenerService, WidgetOpenerOptions, NavigatableWidget
 import { inject, injectable } from "@theia/core/shared/inversify";
 import { DbcEditorWidget } from "./dbcWdgt/dbc-editor-widget";
 import { DbcModelService } from "./dbcWdgt/dbc-model-service";
-import { TreeLabelProvider } from './tree/tree-label-provider';
 import URI from '@theia/core/lib/common/uri';
 import { CommandRegistry, MenuModelRegistry } from '@theia/core';
+import { DbcLabelProvider } from "./dbcWdgt/dbc-label-provider";
 
 @injectable()
 export class DbcContribution extends BaseTreeEditorContribution{
@@ -14,7 +14,7 @@ export class DbcContribution extends BaseTreeEditorContribution{
     
     constructor(
         @inject(DbcModelService) modelService: TreeEditor.ModelService,
-        @inject(TreeLabelProvider) labelProvider: TreeLabelProvider
+        @inject(DbcLabelProvider) labelProvider: DbcLabelProvider
     ) {
         super(DbcEditorWidget.WIDGET_ID, modelService, labelProvider);
     }    

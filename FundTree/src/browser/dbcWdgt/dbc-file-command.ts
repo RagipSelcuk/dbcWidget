@@ -89,6 +89,8 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
 			// read the dbc as a string value
 			dbcContent = (await this.fileService.read(extensionUri)).value;
 			const dbc = new Dbc();
+			
+			this.logger.info('Dbc Empty Content\n',dbc.toJson({pretty: true}));
 			const rawData = dbc.load(dbcContent,false);
 			this.logger.info('DBC Raw Data',rawData.description);
 			dbc.toJson({pretty: true});

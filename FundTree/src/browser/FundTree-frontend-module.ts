@@ -21,6 +21,7 @@ import { DbcContribution } from './dbc-contribution';
 import { DbcModelService } from './dbcWdgt/dbc-model-service';
 import { DbcEditorWidget } from './dbcWdgt/dbc-editor-widget';
 import { DbcNodeFactory } from './dbcWdgt/dbc-node-factory';
+import { DbcLabelProvider } from './dbcWdgt/dbc-label-provider';
 
 
 export default new ContainerModule(bind => {
@@ -29,6 +30,7 @@ export default new ContainerModule(bind => {
 	bind(DbcFileCommandHandler).toSelf();
 	bind(CommandContribution).to(DbcFileCommandContribution);
 	bind(MenuContribution).to(DbcFileMenuContribution);
+	bind(LabelProviderContribution).to(DbcLabelProvider);
     
 
 	// Bind Theia IDE contributions for the dbc editor.
@@ -38,6 +40,7 @@ export default new ContainerModule(bind => {
 	
 	// bind services to themselves because we use them outside of the editor widget, too.
 	bind(DbcModelService).toSelf().inSingletonScope();
+	bind(DbcLabelProvider).toSelf().inSingletonScope();
 
     bind<WidgetFactory>(WidgetFactory).toDynamicValue(context => ({
         id: DbcEditorWidget.WIDGET_ID,

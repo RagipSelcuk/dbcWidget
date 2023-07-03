@@ -22,9 +22,9 @@ export namespace DbcModel {
 	/** Maps types to their creatable children */
 	export const childrenMapping: Map<string, TreeEditor.ChildrenDescriptor[]> = new Map([
         [
-            Type.Message, [
+            Type.Machine, [
                 {
-                    property: 'Message',
+                    property: 'messages',
                     children: components
                 }
             ]

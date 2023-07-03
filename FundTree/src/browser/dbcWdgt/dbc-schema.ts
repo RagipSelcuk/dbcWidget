@@ -52,10 +52,10 @@ export const dbcSchema = {
     },
 		
 		'messages':{
-			'title': 'Messages',
+			'title': 'Message',
 			'properties':{
         		'typeId': {
-          		'const': 'Messages'
+          		'const': 'Message'
         	},
         	'name': {
           		'type': 'string'
