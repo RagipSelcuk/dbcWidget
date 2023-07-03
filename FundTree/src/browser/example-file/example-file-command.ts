@@ -1,5 +1,5 @@
 import { SingleTextInputDialog } from '@theia/core/lib/browser/dialogs';
-import { ILogger } from '@theia/core/lib/common';
+import { ILogger, MessageService } from '@theia/core/lib/common';
 import { BinaryBuffer } from '@theia/core/lib/common/buffer';
 import { Command } from '@theia/core/lib/common/command';
 import URI from '@theia/core/lib/common/uri';
@@ -15,6 +15,11 @@ export const NewTreeExampleFileCommand: Command = {
     label: 'New Tree Example File'
 };
 
+export const OpenTreeExampleFileCommand: Command ={
+	id: 'FundTree-tree.openExampleFile',
+	label: 'Open Example File'
+}
+
 @injectable()
 export class NewTreeExampleFileCommandHandler implements SingleUriCommandHandler {
     constructor(
@@ -25,7 +30,9 @@ export class NewTreeExampleFileCommandHandler implements SingleUriCommandHandler
         @inject(ILogger)
         protected readonly logger: ILogger,
         @inject(WorkspaceService)
-        protected readonly workspaceService: WorkspaceService
+        protected readonly workspaceService: WorkspaceService,
+        @inject(MessageService)
+        protected readonly messageService: MessageService
     ) { }
     
     isEnabled() {
@@ -45,7 +52,7 @@ export class NewTreeExampleFileCommandHandler implements SingleUriCommandHandler
             return;
         }
 
-        const targetUri = dir.resource.resolve('tree-example.tree');
+        const targetUri = dir.resource.resolve('dbc_sample.tree');
         const preliminaryFileUri = FileSystemUtils.generateUniqueResourceURI(dir, targetUri, false);
         const dialog = new SingleTextInputDialog({
             title: 'New Example File',
@@ -60,23 +67,80 @@ export class NewTreeExampleFileCommandHandler implements SingleUriCommandHandler
                 .then(_ => this.openerService.getOpener(fileUri))
                 .then(openHandler => openHandler.open(fileUri));
         }
+
+        
+        
+    }
+}
+
+
+
+@injectable()
+export class OpenExampleFileCommandHandler implements SingleUriCommandHandler {
+    constructor(
+        @inject(OpenerService)
+        protected readonly openerService: OpenerService,
+        @inject(FileService)
+        protected readonly fileService: FileService,
+        @inject(ILogger)
+        protected readonly logger: ILogger,
+        @inject(WorkspaceService)
+        protected readonly workspaceService: WorkspaceService,
+        @inject(MessageService)
+        protected readonly messageService: MessageService
+    ) { }
+    
+    isEnabled() {
+        return this.workspaceService.opened;
+    }
+
+    async execute(uri: URI) {
+        const stat = await this.fileService.resolve(uri);
+        if (!stat) {
+            this.logger.error(`[OpenExampleFileCommandHandler] Could not create file stat for uri`, uri);
+            return;
+        }
+
+        const dir = stat.isDirectory ? stat : await this.fileService.resolve(uri.parent);
+        if (!dir) {
+            this.logger.error(`[OpenExampleFileCommandHandler] Could not create file stat for uri`, uri.parent);
+            return;
+        }
+
+        const targetUri = dir.resource.resolve('dbc_sample.tree');
+        const preliminaryFileUri = FileSystemUtils.generateUniqueResourceURI(dir, targetUri, false);
+        const dialog = new SingleTextInputDialog({
+            title: 'Open Example File',
+            initialValue: preliminaryFileUri.path.base
+        });
+
+        const fileName = await dialog.open();
+        if (fileName) {
+            const fileUri = dir.resource.resolve(fileName);
+			 this.openerService.getOpener(fileUri).then(openHandler => openHandler.open(fileUri));
+			 this.logger.info('File Uri:',fileUri.toString(true));
+        }
+
+        this.logger.info('File Name',fileName);
+        
+        
     }
 }
 
 const defaultData = {
     "typeId": "Machine",
-    "name": "Super Coffee 4000",
+    "name": "Super Coffee 4000",    
     "children": [
         {
             "typeId": "ControlUnit",
             "processor": {
-                "socketconnectorType": "A1T",
+                "socketconnectorType": "RS",
                 "manufactoringProcess": "18nm",
-                "thermalDesignPower": 10,
+                "thermalDesignPower": 100,
                 "numberOfCores": 2,
-                "clockSpeed": 800,
-                "vendor": "CMD",
-                "advancedConfiguration": true
+                "clockSpeed": 900,
+                "vendor": "ECEM",
+                "advancedConfiguration": false
             },
             "display": {
                 "width": 70,
