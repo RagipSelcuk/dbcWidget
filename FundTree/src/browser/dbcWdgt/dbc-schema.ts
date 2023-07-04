@@ -4,9 +4,19 @@ export const messagesView ={
   'elements': [
     {
       'type': 'Control',
-      'label': 'Messages',
+      'label': 'Name',
       'scope': '#/properties/name'
-    }
+    },
+    {
+      'type': 'Control',
+      'label': 'Id',
+      'scope': '#/properties/messageId'		
+	},
+	{
+      'type': 'Control',
+      'label': 'Extended',
+      'scope': '#/properties/name'		
+	}
   ]
 };
 
@@ -53,15 +63,19 @@ export const dbcSchema = {
 		
 		'messages':{
 			'title': 'Message',
+			'type': 'object',
 			'properties':{
         		'typeId': {
           		'const': 'Message'
         	},
         	'name': {
           		'type': 'string'
-        	}				
+        	},
+           'messageId': {
+          		'type': 'integer'
+       		 },				
 			},
-			'additionalProperties': false
+			'additionalProperties': true
 		},
 		'signals':{
 			'title': 'Signals',
@@ -76,5 +90,5 @@ export const dbcSchema = {
 			'additionalProperties': false			
 		}
 	},	
-	'$ref': '#/definitions/messages'
+	'$ref': '#/definitions/machine'
 };

@@ -29,7 +29,7 @@ class Can extends BitUtils {
    */
   set database(dbc: DbcData) {
     this._database = dbc;
-    this.idMap = this.messageMapTransform(this._database.messages);
+    this.idMap = this.messageMapTransform(this._database.children);
   }
 
   private messageMapTransform(messages: Map<string, Message>): Map<number, Message> {

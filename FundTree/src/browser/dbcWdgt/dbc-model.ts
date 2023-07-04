@@ -5,7 +5,7 @@ export namespace DbcModel {
 	
 	export namespace Type{
 		export const Message = 'Message';
-		export const Signals = 'signals';
+		export const Signals = 'Signals';
 		export const Machine = 'Machine';
 		
 		
@@ -14,23 +14,32 @@ export namespace DbcModel {
 		}	
 	}
 	
-	const components =[
+	const DbcComponents =[
 		Type.Message,
 		Type.Signals
 	];
 	
-	/** Maps types to their creatable children */
-	export const childrenMapping: Map<string, TreeEditor.ChildrenDescriptor[]> = new Map([
+	
+	 /** Maps types to their creatable children */
+    export const childrenMapping: Map<string, TreeEditor.ChildrenDescriptor[]> = new Map([
         [
             Type.Machine, [
                 {
-                    property: 'messages',
-                    children: components
+                    property: 'children',
+                    children: DbcComponents
                 }
             ]
-        ]		
+        ],
+        [
+            Type.Message, [
+                {
+                    property: 'children',
+                    children: DbcComponents
+                }
+            ]
+        ]
+    ]);
 	
-	]);
 	
 	
 	

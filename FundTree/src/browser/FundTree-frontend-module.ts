@@ -22,6 +22,8 @@ import { DbcModelService } from './dbcWdgt/dbc-model-service';
 import { DbcEditorWidget } from './dbcWdgt/dbc-editor-widget';
 import { DbcNodeFactory } from './dbcWdgt/dbc-node-factory';
 import { DbcLabelProvider } from './dbcWdgt/dbc-label-provider';
+import { DbcLabelProviderContribution } from './dbc-label-provider-contribution';
+
 
 
 export default new ContainerModule(bind => {
@@ -30,13 +32,15 @@ export default new ContainerModule(bind => {
 	bind(DbcFileCommandHandler).toSelf();
 	bind(CommandContribution).to(DbcFileCommandContribution);
 	bind(MenuContribution).to(DbcFileMenuContribution);
-	bind(LabelProviderContribution).to(DbcLabelProvider);
+	
     
 
 	// Bind Theia IDE contributions for the dbc editor.
+	bind(LabelProviderContribution).to(DbcLabelProviderContribution);
 	bind(OpenHandler).to(DbcContribution);
 	bind(MenuContribution).to(DbcContribution);
 	bind(CommandContribution).to(DbcContribution);
+	bind(LabelProviderContribution).to(DbcLabelProvider);
 	
 	// bind services to themselves because we use them outside of the editor widget, too.
 	bind(DbcModelService).toSelf().inSingletonScope();
@@ -60,6 +64,7 @@ export default new ContainerModule(bind => {
             return treeContainer.get(DbcEditorWidget);
         }
     }));
+
 
     // Bind Theia IDE contributions for the example file creation menu entry.
     bind(NewTreeExampleFileCommandHandler).toSelf();
@@ -99,4 +104,5 @@ export default new ContainerModule(bind => {
             return treeContainer.get(TreeEditorWidget);
         }
     }));
+   
 });
