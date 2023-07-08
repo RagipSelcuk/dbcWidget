@@ -4,19 +4,28 @@ export const messagesView ={
   'elements': [
     {
       'type': 'Control',
-      'label': 'Name',
-      'scope': '#/properties/name'
-    },
-    {
-      'type': 'Control',
-      'label': 'Id',
-      'scope': '#/properties/messageId'		
-	},
-	{
-      'type': 'Control',
-      'label': 'Extended',
-      'scope': '#/properties/name'		
-	}
+      "scope": "#/properties/messageItems",
+        "options": {
+          "elementLabelProp": "name",
+          "detail": {
+            "type": "VerticalLayout",
+            "elements": [
+              {
+                "type": "Control",
+                "scope": "#/properties/name"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/id"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/description"
+              },              
+            ]
+          }
+        }      
+    }
   ]
 };
 
@@ -62,20 +71,30 @@ export const dbcSchema = {
     },
 		
 		'messages':{
-			'title': 'Message',
-			'type': 'object',
+			'title': 'Messages',
 			'properties':{
         		'typeId': {
           		'const': 'Message'
         	},
-        	'name': {
-          		'type': 'string'
-        	},
-           'messageId': {
-          		'type': 'integer'
-       		 },				
+			"messageItems": {
+                    "type": "array",
+                    "title": "Comments",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "integer"
+                        },
+                        "description":{
+							"type": "string"	
+						}                     
+                      }
+                   }                
+             }			
 			},
-			'additionalProperties': true
 		},
 		'signals':{
 			'title': 'Signals',
