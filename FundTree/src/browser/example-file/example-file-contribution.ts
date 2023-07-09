@@ -6,7 +6,6 @@ import { NewTreeExampleFileCommandHandler, NewTreeExampleFileCommand, OpenTreeEx
 
 
 
-//const TREE_EDITOR_MAIN_MENU = [...MAIN_MENU_BAR, '9_treeeditormenu'];
 
 
 @injectable()

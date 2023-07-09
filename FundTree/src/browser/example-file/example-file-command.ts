@@ -107,7 +107,7 @@ export class OpenExampleFileCommandHandler implements SingleUriCommandHandler {
             return;
         }
 
-        const targetUri = dir.resource.resolve('dbc_sample.tree');
+        const targetUri = dir.resource.resolve('tree_sample.tree');
         const preliminaryFileUri = FileSystemUtils.generateUniqueResourceURI(dir, targetUri, false);
         const dialog = new SingleTextInputDialog({
             title: 'Open Example File',
@@ -128,6 +128,7 @@ export class OpenExampleFileCommandHandler implements SingleUriCommandHandler {
 }
 
 const defaultData = {
+
     "typeId": "Machine",
     "name": "Super Coffee 4000",    
     "children": [
@@ -170,4 +171,5 @@ const defaultData = {
             ]
         }
     ]
+    
 }

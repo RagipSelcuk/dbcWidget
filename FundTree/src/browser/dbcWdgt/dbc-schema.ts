@@ -1,28 +1,58 @@
 
-export const messagesView ={
+export const messagesView = {
   'type': 'VerticalLayout',
-  'elements': [
-    {
-      'type': 'Control',
-      'label': 'Messages',
-      'scope': '#/properties/name'
-    }
-  ]
+  "elementLabelProp": "name",
+	  
+	  'elements': [
+	    {
+	      'type': 'Control',
+	      'label': 'Name',
+	      'scope': '#/properties/name'
+	    },
+	    {
+	      'type': 'Control',
+	      'label': 'Id',
+	      'scope': '#/properties/id'
+	    },
+	    {
+			
+	      'type': 'Control',
+	      'label': 'Description',
+	      'scope': '#/properties/description'
+			
+		},
+		{
+	      'type': 'Control',
+	      'label': 'Bus Speed',
+	      'scope': '#/properties/busSpeed'
+		}
+
+	  ]	
+
+	
 };
 
 export const signalsView = {
   'type': 'VerticalLayout',
+  "elementLabelProp": "name",
   'elements': [
     {
       'type': 'Control',
-      'label': 'Signals',
-      'scope': '#/properties/signals'
+      'label': 'Name',
+      'scope': '#/properties/name'
+    },
+    {
+      'type': 'Control',
+      'label': 'Endian',
+      'scope': '#/properties/endiann'
     }
   ]	
 };
 
+
 export const machineView = {
   'type': 'VerticalLayout',
+  "elementLabelProp": "version",
   'elements': [
     {
       'type': 'Control',
@@ -37,7 +67,7 @@ export const machineView = {
 export const dbcSchema = {
 	'definitions':{
     'machine': {
-      'title': 'Machine',
+      'title': 'ECU',
       'properties': {
         'typeId': {
           'const': 'Machine'
@@ -52,29 +82,39 @@ export const dbcSchema = {
     },
 		
 		'messages':{
-			'title': 'Message',
+			'title': 'Messages',
 			'properties':{
         		'typeId': {
           		'const': 'Message'
         	},
-        	'name': {
-          		'type': 'string'
-        	}				
-			},
-			'additionalProperties': false
+			"name": {
+            	"type": "string"
+	        },
+    		"id": {
+            	"type": "integer"
+            },
+    		"busSpeed": {
+            	"type": "integer"
+            },
+            "description":{
+				"type": "string"	
+			}                     
+           }			
 		},
 		'signals':{
 			'title': 'Signals',
 			'properties':{
         		'typeId': {
-          		'const': 'Signals'
+          		'const': 'Signal'
         	},
-        	'name': {
+        	"name": {
           		'type': 'string'
-        	}				
-			},
-			'additionalProperties': false			
+        	},
+        	"endiann":{
+				'type': 'string'
+			}				
+		   }		
 		}
 	},	
-	'$ref': '#/definitions/messages'
+	'$ref': '#/definitions/machine'
 };

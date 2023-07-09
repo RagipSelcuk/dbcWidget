@@ -60,7 +60,7 @@ export type NetworkBridges = Map<CanId, TxMessages>;
 export type DbcData = {
   typeId: string,	
   version: string | null;
-  messages: Map<string, Message>;
+  children: Map<string, Message>;
   description: string | null;
   busSpeed: number | null;
   nodes: Map<string, Node>;

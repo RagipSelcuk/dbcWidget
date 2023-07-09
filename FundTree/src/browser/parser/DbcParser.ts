@@ -198,13 +198,13 @@ export default class DbcParser extends Parser {
     message.description = null;
     message.attributes = new Map();
     message.signalGroups = new Map();
-    dbc.messages.set(message.name, message);
+    dbc.children.set(message.name, message);
   }
 
   private addSignalMultiplexValue(dbc: DbcData, data: SignalMultiplexVal) {
     const can = new Can();
     const canId = can.isIdExtended(data.id) ? can.unsetExtendedFlag(data.id) : data.id;
-    const message = Array.from(dbc.messages.values()).find((value) => value.id === canId);
+    const message = Array.from(dbc.children.values()).find((value) => value.id === canId);
     if (message) {
       const mulPlexSig = message.multiplexSignals.get(data.switch_name);
       const mulPlexSigBase = message.multiplexSignals.get(data.name);
@@ -259,11 +259,11 @@ export default class DbcParser extends Parser {
     signal.dataType = computeDataType(signal.length, signal.signed);
     /* Signals come directly after a message tag, so we can just append
             the current signal instance to the last message found in the array */
-    const messageList = Array.from(dbc.messages.keys());
+    const messageList = Array.from(dbc.children.keys());
     const lastKey = messageList[messageList.length - 1];
     let msg: Message | undefined;
-    if (dbc.messages.has(lastKey)) {
-      msg = dbc.messages.get(lastKey);
+    if (dbc.children.has(lastKey)) {
+      msg = dbc.children.get(lastKey);
       msg?.signals.set(signal.name, signal);
 
       if (!signal.multiplexer && (signal.multiplex ?? '').length === 0) {
@@ -282,7 +282,7 @@ export default class DbcParser extends Parser {
     const canId = can.isIdExtended(data.id) ? can.unsetExtendedFlag(data.id) : data.id;
     const msgName = this.getMessageNameFromId(dbc, canId);
     if (msgName) {
-      const msg = dbc.messages.get(msgName);
+      const msg = dbc.children.get(msgName);
       const signal = msg?.signals.get(data.name);
       if (signal) {
         signal.description = data.comment;
@@ -305,7 +305,7 @@ export default class DbcParser extends Parser {
     const canId = can.isIdExtended(data.id) ? can.unsetExtendedFlag(data.id) : data.id;
     const msgName = this.getMessageNameFromId(dbc, canId);
     if (msgName) {
-      const msg = dbc.messages.get(msgName);
+      const msg = dbc.children.get(msgName);
       if (msg) {
         msg.description = data.comment;
       }
@@ -338,8 +338,8 @@ export default class DbcParser extends Parser {
 
   private addVal(dbc: DbcData, data: Val) {
     // Need to find specific signal in dataset to append signal table to
-    for (const [key] of dbc.messages) {
-      const msg = dbc.messages.get(key);
+    for (const [key] of dbc.children) {
+      const msg = dbc.children.get(key);
       const can = new Can();
       const canId = can.isIdExtended(data.id) ? can.unsetExtendedFlag(data.id) : data.id;
       if (msg && msg.id === canId) {
@@ -482,7 +482,7 @@ export default class DbcParser extends Parser {
       // Add existing attribute to proper type
       case 'Signal':
         if (msgName) {
-          const msg = dbc.messages.get(msgName);
+          const msg = dbc.children.get(msgName);
           if (msg) {
             const signal = msg.signals.get(data.signal);
             if (signal) {
@@ -493,7 +493,7 @@ export default class DbcParser extends Parser {
         break;
       case 'Message':
         if (msgName) {
-          const msg = dbc.messages.get(msgName);
+          const msg = dbc.children.get(msgName);
           if (msg) {
             msg.attributes.set(attr.name, attr);
           }
@@ -530,7 +530,7 @@ export default class DbcParser extends Parser {
     const canId = can.isIdExtended(data.id) ? can.unsetExtendedFlag(data.id) : data.id;
     const name = this.getMessageNameFromId(dbc, canId);
     if (name) {
-      const msg = dbc.messages.get(name);
+      const msg = dbc.children.get(name);
       if (msg) {
         const groupData = {
           name: data.name,
@@ -548,7 +548,7 @@ export default class DbcParser extends Parser {
     const canId = can.isIdExtended(data.id) ? can.unsetExtendedFlag(data.id) : data.id;
     const msgName = this.getMessageNameFromId(dbc, canId);
     if (msgName) {
-      const msg = dbc.messages.get(msgName);
+      const msg = dbc.children.get(msgName);
       if (msg) {
         const signal = msg.signals.get(data.name);
         if (signal) {
@@ -595,10 +595,10 @@ export default class DbcParser extends Parser {
   }
 
   private getMessageNameFromId(dbc: DbcData, id: number): string | null {
-    const msgNames = Array.from(dbc.messages.keys());
+    const msgNames = Array.from(dbc.children.keys());
     let msgName: string | null = null;
     for (const name of msgNames) {
-      const msg = dbc.messages.get(name);
+      const msg = dbc.children.get(name);
       if (msg && msg.id === id) {
         msgName = name;
         break;

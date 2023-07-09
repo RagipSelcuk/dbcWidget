@@ -1,5 +1,5 @@
 import { Command, ILogger, MessageService, URI } from "@theia/core";
-import { OpenerService } from "@theia/core/lib/browser";
+import { OpenerService, SingleTextInputDialog } from "@theia/core/lib/browser";
 import { BinaryBuffer } from "@theia/core/lib/common/buffer";
 import { SingleUriCommandHandler } from "@theia/core/lib/common/uri-command-handler";
 import { inject, injectable } from "@theia/core/shared/inversify";
@@ -17,6 +17,11 @@ import Dbc from "../dbc/Dbc";
 export const DbcFileCommand: Command = {
     id: 'DbcFileCommand.dbcFileLoad',
     label: 'Dbc File Load'
+};
+
+export const DbcRawFileCommand: Command = {
+	id: 'DbcRawFileCommand.dbcFileLoad',
+	label: 'Dbc Raw File Load'	
 };
 
 
@@ -48,9 +53,6 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
         protected readonly fileDialogService: FileDialogService
     ) { }
     
-    	
-	
-	
 
     isEnabled() {
 		return this.workspaceService.opened;
@@ -103,11 +105,6 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
 			// save as a json format
 			
 			// open and gather the uri address
-							
-				
-				
-				
-				 
 			}
 			else{
 				this.messageService.error('The selected file is not a valid "*.dbc"');
@@ -115,15 +112,99 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
 			}
 
 		}
-		
-        
-      	
-        
-        	
-		
-   
 	}
-		
-		 
+	
+}
+
+
+@injectable()
+export class DbcRawFileCommandHandler implements SingleUriCommandHandler{
+	
+    constructor(
+        @inject(OpenerService)
+        protected readonly openerService: OpenerService,
+        @inject(FileService)
+        protected readonly fileService: FileService,
+        @inject(ILogger)
+        protected readonly logger: ILogger,
+        @inject(WorkspaceService)
+        protected readonly workspaceService: WorkspaceService,
+        @inject(MessageService)
+        protected readonly messageService: MessageService,
+        @inject(FileDialogService)
+        protected readonly fileDialogService: FileDialogService
+    ) { }
+    
+
+    isEnabled() {
+		return this.workspaceService.opened;
+    }
+	
+	async execute(uri: URI) {
+        const stat = await this.fileService.resolve(uri);
+        if (!stat) {
+            this.logger.error(`[DbcFileCommandHandler] Could not create file stat for uri`, uri);
+            return;
+        }
+
+        const dir = stat.isDirectory ? stat : await this.fileService.resolve(uri.parent);
+        if (!dir) {
+            this.logger.error(`[DbcFileCommandHandler] Could not create file stat for uri`, uri.parent);
+            return;
+        }
+        
+        const targetUri = dir.resource.resolve('a.dbc');
+        const preliminaryFileUri = FileSystemUtils.generateUniqueResourceURI(dir, targetUri, false);
+        const dialog = new SingleTextInputDialog({
+            title: 'New Dbc Raw File',
+            initialValue: preliminaryFileUri.path.base
+        });
+
+        const fileName = await dialog.open();
+        if (fileName) {
+            const fileUri = dir.resource.resolve(fileName);
+            const contentBuffer = BinaryBuffer.fromString(JSON.stringify(defaultRawData, null, 2));
+            this.fileService.createFile(fileUri, contentBuffer)
+                .then(_ => this.openerService.getOpener(fileUri))
+                .then(openHandler => openHandler.open(fileUri));
+        }
+        
+        
+	}
+	
+}
+
+const defaultRawData ={  
+  "typeId": "Machine",
+  "version": "2.0",
+  "children": [
+    {
+      "typeId": "Message",
+      "id": 4321,
+      "busSpeed": 250, 
+      "name": "Message1",
+      "description": "Multiplexed CAN-Message",
+	  "children": [
+        {
+		  "typeId": "Signal",	
+          "name": "Duru"
+         }
+	  ]      
+    },
+    {
+      "typeId": "Message",
+      "id": 5678,
+      "name": "Message2",
+      "description": "Standard CAN-Message",
+	  "children": [
+        {
+		  "typeId": "Signal",	
+          "name": "Bahar",
+          "endiann": "Little"
+         }
+	  ]      
+    },
+    	
+]	
 	
 }
