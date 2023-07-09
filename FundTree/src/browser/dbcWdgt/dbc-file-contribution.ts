@@ -3,12 +3,12 @@ import { CommandContribution, CommandRegistry } from "@theia/core/lib/common/com
 import { MAIN_MENU_BAR, MenuContribution, MenuModelRegistry } from "@theia/core/lib/common/menu";
 import { inject, injectable } from "@theia/core/shared/inversify";
 import { WorkspaceRootUriAwareCommandHandler, WorkspaceService } from "@theia/workspace/lib/browser";
-import { DbcFileCommand, DbcFileCommandHandler } from "./dbc-file-command";
+import { DbcFileCommand, DbcFileCommandHandler, DbcRawFileCommand, DbcRawFileCommandHandler } from "./dbc-file-command";
 
 
 
 
-export const DBC_EDITOR_MAIN_MENU = [...MAIN_MENU_BAR, '9_dbceditormenu'];
+export const DBC_EDITOR_MAIN_MENU = [...MAIN_MENU_BAR, '10_dbceditormenu'];
 
 
 
@@ -23,7 +23,9 @@ export class DbcFileCommandContribution implements CommandContribution{ // it sh
         @inject(WorkspaceService)
         private readonly workspaceService: WorkspaceService,	
         @inject(DbcFileCommandHandler)
-        private readonly dbcFileHandler: DbcFileCommandHandler
+        private readonly dbcFileHandler: DbcFileCommandHandler,
+        @inject(DbcRawFileCommandHandler)
+        private readonly dbcRawFileHandler: DbcRawFileCommandHandler
 	){
 		
 	}
@@ -38,8 +40,20 @@ export class DbcFileCommandContribution implements CommandContribution{ // it sh
               this.dbcFileHandler
           )
     	);
+    	
+    	
+    	// added to validation of generated json raw file 
+       	commands.registerCommand(DbcRawFileCommand,
+          new WorkspaceRootUriAwareCommandHandler(
+              this.workspaceService,
+              this.selectionService,
+              this.dbcRawFileHandler
+          )
+    	);
+    	
     
     }
+    //DbcRawFileCommandHandler
 	
 }
 
@@ -54,9 +68,15 @@ export class DbcFileMenuContribution implements MenuContribution{ // it should b
         
         menus.registerMenuAction(DBC_EDITOR_MAIN_MENU,{
 			commandId: DbcFileCommand.id,
-			label:'Open Dbc File'
+			label:'Open Dbc File',
+			order: '0'
 		});
         
+        menus.registerMenuAction(DBC_EDITOR_MAIN_MENU,{
+			commandId: DbcRawFileCommand.id,
+			label:'Open Dbc Raw File',
+			order: '1'
+		});
         
     }
 	

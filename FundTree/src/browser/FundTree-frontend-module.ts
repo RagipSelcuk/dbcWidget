@@ -16,7 +16,7 @@ import { NewTreeExampleFileCommandHandler, OpenExampleFileCommandHandler } from 
 import { NewTreeExampleFileCommandContribution, NewTreeExampleFileMenuContribution } from './example-file/example-file-contribution';
 import { createBasicTreeContainer, NavigatableTreeEditorOptions } from '@eclipse-emfcloud/theia-tree-editor';
 import { DbcFileCommandContribution, DbcFileMenuContribution } from './dbcWdgt/dbc-file-contribution';
-import { DbcFileCommandHandler } from './dbcWdgt/dbc-file-command';
+import { DbcFileCommandHandler, DbcRawFileCommandHandler } from './dbcWdgt/dbc-file-command';
 import { DbcContribution } from './dbc-contribution';
 import { DbcModelService } from './dbcWdgt/dbc-model-service';
 import { DbcEditorWidget } from './dbcWdgt/dbc-editor-widget';
@@ -32,7 +32,8 @@ export default new ContainerModule(bind => {
 	bind(DbcFileCommandHandler).toSelf();
 	bind(CommandContribution).to(DbcFileCommandContribution);
 	bind(MenuContribution).to(DbcFileMenuContribution);
-	
+	// DbcRaw
+	bind(DbcRawFileCommandHandler).toSelf();
     
 
 	// Bind Theia IDE contributions for the dbc editor.
