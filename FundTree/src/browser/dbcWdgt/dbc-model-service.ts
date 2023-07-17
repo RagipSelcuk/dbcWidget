@@ -1,7 +1,7 @@
 import { TreeEditor } from "@eclipse-emfcloud/theia-tree-editor";
 import { ILogger } from "@theia/core";
 import { inject, injectable } from "@theia/core/shared/inversify";
-import { dbcSchema, machineView, messagesView, signalsView } from "./dbc-schema";
+import { dbcSchema, machineView, messagesView, mignalsView } from "./dbc-schema";
 import { DbcModel } from "./dbc-model";
 
 
@@ -46,8 +46,8 @@ export class DbcModelService implements TreeEditor.ModelService{
         switch (type) {
             case DbcModel.Type.Message:
                 return messagesView;
-            case DbcModel.Type.Signals:
-                return signalsView;
+            case DbcModel.Type.Mignals:
+                return mignalsView;
             case DbcModel.Type.Machine:
 				return machineView;    
             default:

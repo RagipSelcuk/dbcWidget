@@ -9,7 +9,7 @@ const DEFAULT_COLOR = 'white';
 
 const ICON_CLASSES: Map<string, string> = new Map([
     [DbcModel.Type.Machine, 'fa-fire ' + DEFAULT_COLOR],
-    [DbcModel.Type.Signals, 'fa-server ' + DEFAULT_COLOR],
+    [DbcModel.Type.Mignals, 'fa-server ' + DEFAULT_COLOR],
     [DbcModel.Type.Message, 'fa-inbox ' + DEFAULT_COLOR],
 ]);
 

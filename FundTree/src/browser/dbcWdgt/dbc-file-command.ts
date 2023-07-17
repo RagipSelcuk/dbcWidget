@@ -184,26 +184,37 @@ const defaultRawData ={
       "busSpeed": 250, 
       "name": "Message1",
       "description": "Multiplexed CAN-Message",
-	  "children": [
+      "signals": [
         {
-		  "typeId": "Signal",	
-          "name": "Duru"
-         }
-	  ]      
+          "name": "S6base",
+          "endian": "Intel",
+          "startBit": 2,
+          "length": 4,
+          "signed": false,
+          "max": 0,
+          "min": 0,
+          "factor": 1,
+          "offset": 0,
+         },
+         {
+          "name": "S5base",
+          "endian": "Intel",
+          "startBit": 11,
+          "length": 8,
+          "signed": false,
+          "max": 0,
+          "min": 0,
+          "factor": 1,
+          "offset": 0,
+          }
+	  ]    
     },
     {
       "typeId": "Message",
       "id": 5678,
       "name": "Message2",
-      "description": "Standard CAN-Message",
-	  "children": [
-        {
-		  "typeId": "Signal",	
-          "name": "Bahar",
-          "endiann": "Little"
-         }
-	  ]      
-    },
+      "description": "Standard CAN-Message"
+      }
     	
 ]	
 	

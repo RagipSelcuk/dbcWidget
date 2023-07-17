@@ -1,5 +1,7 @@
 
+	
 export const messagesView = {
+
   'type': 'VerticalLayout',
   "elementLabelProp": "name",
 	  
@@ -25,6 +27,15 @@ export const messagesView = {
 	      'type': 'Control',
 	      'label': 'Bus Speed',
 	      'scope': '#/properties/busSpeed'
+		},
+		{
+		  "type": "VerticalLayout",
+  		  "elements": [
+    		{
+      			"type": "Control",
+      			"scope": "#/properties/signals"
+    		}
+  			]
 		}
 
 	  ]	
@@ -32,7 +43,8 @@ export const messagesView = {
 	
 };
 
-export const signalsView = {
+
+export const mignalsView = {
   'type': 'VerticalLayout',
   "elementLabelProp": "name",
   'elements': [
@@ -44,7 +56,7 @@ export const signalsView = {
     {
       'type': 'Control',
       'label': 'Endian',
-      'scope': '#/properties/endiann'
+      'scope': '#/properties/endian'
     }
   ]	
 };
@@ -98,21 +110,51 @@ export const dbcSchema = {
             },
             "description":{
 				"type": "string"	
-			}                     
+			},
+			'signals': {
+          		'$ref': '#/definitions/signals'
+        	}                     
            }			
 		},
-		'signals':{
-			'title': 'Signals',
+		'mignals':{
+			'title': 'Mignals',
 			'properties':{
         		'typeId': {
-          		'const': 'Signal'
+          		'const': 'Mignal'
         	},
         	"name": {
           		'type': 'string'
         	},
-        	"endiann":{
+        	"endian":{
 				'type': 'string'
 			}				
+		   }		
+		},
+		
+		'signals':{
+//			"type": "object",
+			'title': 'Signals',
+			'properties':{
+				'typeId': {
+          			'const': 'Signals'
+      //    			"type": "array"
+        		},
+        			
+				"items": {
+					//"type": "object",
+					"properties": {
+				'typeId': {
+          			'const': 'Signals',
+        		},
+        								
+				        	"name": {
+          						'type': 'string'
+        					},
+        					"endian":{
+								'type': 'string'
+							}		
+					}			
+			 }	
 		   }		
 		}
 	},	

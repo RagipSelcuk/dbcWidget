@@ -163,6 +163,22 @@ export const controlUnitView = {
         }
       ]
     },
+		{
+			'type': 'Group',
+			'label': 'Signals',
+			'elements':[
+			     {
+                      'type': 'Control',
+                      'label': 'Name',
+                      'scope': '#/properties/signals/properties/name'
+                 },
+			     {
+                      'type': 'Control',
+                      'label': 'Endian',
+                      'scope': '#/properties/signals/properties/endian'
+                 },                 	
+			]
+		}
 
   ]
 };
