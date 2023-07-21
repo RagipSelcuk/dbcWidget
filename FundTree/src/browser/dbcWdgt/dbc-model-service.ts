@@ -64,50 +64,7 @@ export class DbcModelService implements TreeEditor.ModelService{
                 return undefined;
         }
     }
-	/*
-	// getUiSchemaForNode(node: TreeEditor.Node): MaybePromise<UISchemaElement | undefined> {
-    getSchemaForNode(node: TreeEditor.Node) {
-        return {
-            definitions: dbcSchema.definitions,
-            ...this.getSchemaForType(node.jsonforms.type),
-        };
-    }
-	
 
-    private getSchemaForType(type: string) {
-        if (!type) {
-            return undefined;
-        }
-        const schema = Object.entries(dbcSchema.definitions)
-            .map(entry => entry[1])
-            .find(
-                definition =>
-                	
-                    definition.properties  && definition.properties.typeId.const === type
-            );
-        if (schema === undefined) {
-            this.logger.warn("Can't find definition schema for type " + type);
-        }
-        return schema;
-    }
-
-
-    getUiSchemaForNode(node: TreeEditor.Node) {
-        const type = node.jsonforms.type;
-        switch (type) {
-            case DbcModel.Type.Message:
-                return messagesView;
-            case DbcModel.Type.Mignals:
-                return mignalsView;
-            case DbcModel.Type.Machine:
-				return machineView;    
-            default:
-                this.logger.warn("Can't find registered ui schema for type " + type);
-                return undefined;
-        }
-    }
-
-*/
     getChildrenMapping(): Map<string, TreeEditor.ChildrenDescriptor[]> {
         return DbcModel.childrenMapping;
     }

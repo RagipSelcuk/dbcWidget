@@ -37,6 +37,14 @@ export namespace DbcModel {
                     children: DbcComponents
                 }
             ]
+        ],
+        [
+            Type.Mignals, [
+                {
+                    property: 'children',
+                    children: DbcComponents
+                }
+            ]
         ]
     ]);
 	

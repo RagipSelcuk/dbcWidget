@@ -16,7 +16,7 @@ export class DbcNodeFactory implements TreeEditor.NodeFactory{
         @inject(ILogger) private readonly logger: ILogger) {
     }	
 	
-	//mapDataToNodes(treeData: TreeEditor.TreeData): MaybePromise<TreeEditor.Node[]> {
+	// Method to map tree data to nodes in the tree
     mapDataToNodes(treeData: TreeEditor.TreeData): TreeEditor.Node[] {
         const node = this.mapData(treeData.data);
         if (node) {
@@ -24,7 +24,7 @@ export class DbcNodeFactory implements TreeEditor.NodeFactory{
         }
         return [];
     }	
-//	mapData(data: any, parent?: TreeEditor.Node | undefined, property?: string | undefined, indexOrKey?: string | number | undefined): MaybePromise<TreeEditor.Node> {
+	// Method to map individual data to a node in the tree
     mapData(data: any, parent?: TreeEditor.Node, property?: string, indexOrKey?: number | string): TreeEditor.Node {
         if (!data) {
             this.logger.warn('mapData called without data');
@@ -48,6 +48,16 @@ export class DbcNodeFactory implements TreeEditor.NodeFactory{
             parent.children.push(node);
             parent.expanded = true;
         }
+        
+// Check if the node's data has "signals" and create child nodes for each signal
+    if (data.signals) {
+      const signals = data.signals as Array<any>;
+      signals.forEach((signal, idx) => {
+        this.createSignalNode(signal, node, idx);
+      });
+    }
+    
+    	// Recursively create child nodes for the "children" property if it exists        
         if (data.children) {
             const children = data.children as Array<any>;
             // component types
@@ -59,6 +69,29 @@ export class DbcNodeFactory implements TreeEditor.NodeFactory{
         return node;
     }	
 	
+	
+ // Method to create child nodes for "signals"
+  private createSignalNode(
+    signalData: any,
+    parent: TreeEditor.Node,
+    index: number
+  ) {
+    const signalNode: TreeEditor.Node = {
+      ...this.defaultNode(),
+      editorId: DbcEditorWidget.WIDGET_ID,
+      name: signalData.name || "Unnamed Signal",
+      parent: parent,
+      jsonforms: {
+        type: "Signal", // Assuming "Signal" as the type for signals
+        data: signalData,
+        property: "signals",
+        index: index.toFixed(0),
+      },
+    };
+    parent.children.push(signalNode);
+  }
+  
+  // Method to check if a node has creatable children	
     hasCreatableChildren(node: TreeEditor.Node): boolean {
         return node ? DbcModel.childrenMapping.get(node.jsonforms.type) !== undefined : false;
     }
