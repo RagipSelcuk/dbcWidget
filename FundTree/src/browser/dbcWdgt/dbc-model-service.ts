@@ -16,6 +16,55 @@ export class DbcModelService implements TreeEditor.ModelService{
         return node.jsonforms.data;
     }
 	
+	/*		// automatically implements the generated uischema
+	getSchemaForNode(node: TreeEditor.Node){
+		return undefined;
+	}
+	*/
+	
+	
+	getSchemaForNode(node: TreeEditor.Node){
+		return this.getSchemaForType(node.jsonforms.type)
+	}
+
+	private getSchemaForType(type: string)
+	{
+		this.logger.info("Ragip getSchemaForType :" + type);
+		switch(type){
+			case 'Machine':
+				dbcSchema.definitions.machine;
+				return 
+				
+			case 'Message':
+				dbcSchema.definitions.messages;
+				return
+				
+			case 'Signal':
+				dbcSchema.definitions.signals;
+				return		
+		default:
+        	this.logger.warn("Can't find registered schema for type: " + type);
+        	return undefined;				
+		}
+	}
+	
+
+  
+      getUiSchemaForNode(node: TreeEditor.Node) {
+        const type = node.jsonforms.type;
+        switch (type) {
+            case DbcModel.Type.Message:
+                return messagesView;
+            case DbcModel.Type.Mignals:
+                return mignalsView;
+            case DbcModel.Type.Machine:
+				return machineView;    
+            default:
+                this.logger.warn("Can't find registered ui schema for type " + type);
+                return undefined;
+        }
+    }
+	/*
 	// getUiSchemaForNode(node: TreeEditor.Node): MaybePromise<UISchemaElement | undefined> {
     getSchemaForNode(node: TreeEditor.Node) {
         return {
@@ -33,13 +82,15 @@ export class DbcModelService implements TreeEditor.ModelService{
             .map(entry => entry[1])
             .find(
                 definition =>
-                    definition.properties && definition.properties.typeId.const === type
+                	
+                    definition.properties  && definition.properties.typeId.const === type
             );
         if (schema === undefined) {
             this.logger.warn("Can't find definition schema for type " + type);
         }
         return schema;
     }
+
 
     getUiSchemaForNode(node: TreeEditor.Node) {
         const type = node.jsonforms.type;
@@ -56,6 +107,7 @@ export class DbcModelService implements TreeEditor.ModelService{
         }
     }
 
+*/
     getChildrenMapping(): Map<string, TreeEditor.ChildrenDescriptor[]> {
         return DbcModel.childrenMapping;
     }
