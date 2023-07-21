@@ -44,7 +44,7 @@ export const messagesView = {
 };
 
 
-export const mignalsView = {
+export const signalsView = {
   'type': 'VerticalLayout',
   "elementLabelProp": "name",
   'elements': [
@@ -116,21 +116,6 @@ export const dbcSchema = {
         	}                     
            }			
 		},
-		'mignals':{
-			'title': 'Mignals',
-			'properties':{
-        		'typeId': {
-          		'const': 'Mignal'
-        	},
-        	"name": {
-          		'type': 'string'
-        	},
-        	"endian":{
-				'type': 'string'
-			}				
-		   }		
-		},
-		
 		'signals':{
 //			"type": "object",
 			'title': 'Signals',

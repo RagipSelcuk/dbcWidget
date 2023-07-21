@@ -5,7 +5,7 @@ export namespace DbcModel {
 	
 	export namespace Type{
 		export const Message = 'Message';
-		export const Mignals = 'Signals';
+		export const Signals = 'Signal';
 		export const Machine = 'Machine';
 		
 		
@@ -16,7 +16,7 @@ export namespace DbcModel {
 	
 	const DbcComponents =[
 		Type.Message,
-		Type.Mignals
+		Type.Signals
 	];
 	
 	
@@ -39,7 +39,7 @@ export namespace DbcModel {
             ]
         ],
         [
-            Type.Mignals, [
+            Type.Signals, [
                 {
                     property: 'children',
                     children: DbcComponents
