@@ -97,6 +97,7 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
 			this.logger.info('DBC Raw Data',rawData.description);
 			dbc.toJson({pretty: true});
 			const contentBuffer = BinaryBuffer.fromString(dbc.toJson({pretty: true}));
+			
             this.fileService.createFile(preliminaryFileUri, contentBuffer)
                 .then(_ => this.openerService.getOpener(preliminaryFileUri))
                 .then(openHandler => openHandler.open(preliminaryFileUri));
@@ -174,48 +175,436 @@ export class DbcRawFileCommandHandler implements SingleUriCommandHandler{
 	
 }
 
-const defaultRawData ={  
+const defaultRawData ={
   "typeId": "Machine",
-  "version": "2.0",
+  "version": "1.0",
   "children": [
     {
       "typeId": "Message",
       "id": 4321,
-      "busSpeed": 250, 
-      "name": "Message1",
-      "description": "Multiplexed CAN-Message",
+      "extended": true,
+      "dlc": 2,
+      "name": "CANMultiplexed",
+      "sendingNode": "Node0",
       "signals": [
         {
-          "name": "S6base",
+          "name": "Value1",
           "endian": "Intel",
-          "startBit": 2,
-          "length": 4,
-          "signed": false,
-          "max": 0,
-          "min": 0,
-          "factor": 1,
-          "offset": 0,
-         },
-         {
-          "name": "S5base",
-          "endian": "Intel",
-          "startBit": 11,
+          "startBit": 8,
           "length": 8,
           "signed": false,
           "max": 0,
           "min": 0,
           "factor": 1,
           "offset": 0,
-          }
-	  ]    
+          "multiplex": "m1",
+          "multiplexer": false,
+          "receivingNodes": [
+            "Node1"
+          ],
+          "unit": "",
+          "valueTable": {
+            "0": "Zero",
+            "1": "One",
+            "2": "Two",
+            "3": "Three"
+          },
+          "description": null,
+          "attributes": [],
+          "dataType": "uint8"
+        },
+        {
+          "name": "Value0",
+          "endian": "Intel",
+          "startBit": 8,
+          "length": 8,
+          "signed": false,
+          "max": 0,
+          "min": 0,
+          "factor": 1,
+          "offset": 0,
+          "multiplex": "m0",
+          "multiplexer": false,
+          "receivingNodes": [
+            "Node0"
+          ],
+          "unit": "",
+          "valueTable": {
+            "0": "Value0",
+            "1": "Value1",
+            "2": "Value2"
+          },
+          "description": null,
+          "attributes": [],
+          "dataType": "uint8"
+        },
+        {
+          "name": "Multiplexer",
+          "endian": "Intel",
+          "startBit": 0,
+          "length": 8,
+          "signed": false,
+          "max": 0,
+          "min": 0,
+          "factor": 1,
+          "offset": 0,
+          "multiplex": "M",
+          "multiplexer": true,
+          "receivingNodes": [
+            "Node0"
+          ],
+          "unit": "",
+          "valueTable": null,
+          "description": null,
+          "attributes": [],
+          "dataType": "uint8"
+        }
+      ],
+      "baseSignals": [],
+      "multiplexSignals": [
+        {
+          "signal": {
+            "name": "Multiplexer",
+            "endian": "Intel",
+            "startBit": 0,
+            "length": 8,
+            "signed": false,
+            "max": 0,
+            "min": 0,
+            "factor": 1,
+            "offset": 0,
+            "multiplex": "M",
+            "multiplexer": true,
+            "receivingNodes": [
+              "Node0"
+            ],
+            "unit": "",
+            "valueTable": null,
+            "description": null,
+            "attributes": [],
+            "dataType": "uint8"
+          },
+          "children": []
+        }
+      ],
+      "description": "Multiplexed CAN-Message",
+      "attributes": [],
+      "signalGroups": []
     },
     {
       "typeId": "Message",
-      "id": 5678,
-      "name": "Message2",
-      "description": "Standard CAN-Message"
-      }
-    	
-]	
-	
+      "id": 1234,
+      "extended": false,
+      "dlc": 8,
+      "name": "CANMessage",
+      "sendingNode": "Node0",
+      "signals": [
+        {
+          "name": "Signal1",
+          "endian": "Intel",
+          "startBit": 32,
+          "length": 32,
+          "signed": false,
+          "max": 100,
+          "min": 0,
+          "factor": 100,
+          "offset": 0,
+          "multiplex": "",
+          "multiplexer": false,
+          "receivingNodes": [
+            "Node1",
+            "Node2"
+          ],
+          "unit": "%",
+          "valueTable": null,
+          "description": null,
+          "attributes": [],
+          "dataType": "uint32"
+        },
+        {
+          "name": "Signal0",
+          "endian": "Intel",
+          "startBit": 0,
+          "length": 32,
+          "signed": true,
+          "max": 0,
+          "min": 0,
+          "factor": 1,
+          "offset": 0,
+          "multiplex": "",
+          "multiplexer": false,
+          "receivingNodes": [
+            "Node1",
+            "Node2"
+          ],
+          "unit": "",
+          "valueTable": null,
+          "description": "First signal in this message",
+          "attributes": [
+            {
+              "name": "SGEnumAttribute",
+              "type": "Signal",
+              "dataType": "ENUM",
+              "options": [
+                "Val0",
+                "Val1",
+                "Val2"
+              ],
+              "defaultValue": "Val0",
+              "value": "2",
+              "min": null,
+              "max": null
+            }
+          ],
+          "dataType": "int32"
+        }
+      ],
+      "baseSignals": [
+        {
+          "name": "Signal1",
+          "endian": "Intel",
+          "startBit": 32,
+          "length": 32,
+          "signed": false,
+          "max": 100,
+          "min": 0,
+          "factor": 100,
+          "offset": 0,
+          "multiplex": "",
+          "multiplexer": false,
+          "receivingNodes": [
+            "Node1",
+            "Node2"
+          ],
+          "unit": "%",
+          "valueTable": null,
+          "description": null,
+          "attributes": [],
+          "dataType": "uint32"
+        },
+        {
+          "name": "Signal0",
+          "endian": "Intel",
+          "startBit": 0,
+          "length": 32,
+          "signed": true,
+          "max": 0,
+          "min": 0,
+          "factor": 1,
+          "offset": 0,
+          "multiplex": "",
+          "multiplexer": false,
+          "receivingNodes": [
+            "Node1",
+            "Node2"
+          ],
+          "unit": "",
+          "valueTable": null,
+          "description": "First signal in this message",
+          "attributes": [
+            {
+              "name": "SGEnumAttribute",
+              "type": "Signal",
+              "dataType": "ENUM",
+              "options": [
+                "Val0",
+                "Val1",
+                "Val2"
+              ],
+              "defaultValue": "Val0",
+              "value": "2",
+              "min": null,
+              "max": null
+            }
+          ],
+          "dataType": "int32"
+        }
+      ],
+      "multiplexSignals": [],
+      "description": null,
+      "attributes": [
+        {
+          "name": "BOStringAttribute",
+          "type": "Message",
+          "dataType": "STRING",
+          "options": null,
+          "defaultValue": "String",
+          "value": "MessageAttribute",
+          "min": null,
+          "max": null
+        }
+      ],
+      "signalGroups": []
+    }
+  ],
+  "description": "DBC Template with multi-",
+  "busSpeed": null,
+  "nodes": [
+    {
+      "name": "Node2",
+      "description": null,
+      "attributes": []
+    },
+    {
+      "name": "Node1",
+      "description": null,
+      "attributes": []
+    },
+    {
+      "name": "Node0",
+      "description": "The 0th Node",
+      "attributes": [
+        {
+          "name": "BUIntAttribute",
+          "type": "Node",
+          "dataType": "INT",
+          "options": null,
+          "defaultValue": "50",
+          "value": "100",
+          "min": 0,
+          "max": 100
+        }
+      ]
+    }
+  ],
+  "valueTables": {
+    "Value0": [
+      "Value2",
+      "Value1",
+      "Value0"
+    ],
+    "Numbers": [
+      "Three",
+      "Two",
+      "One",
+      "Zero"
+    ]
+  },
+  "attributes": [
+    {
+      "name": "FloatAttribute",
+      "type": "Global",
+      "dataType": "FLOAT",
+      "options": null,
+      "defaultValue": "25.25",
+      "value": "45.9",
+      "min": 0,
+      "max": 50.5
+    }
+  ],
+  "newSymbols": [
+    "NS_DESC_",
+    "CM_",
+    "BA_DEF_",
+    "BA_",
+    "VAL_",
+    "CAT_DEF_",
+    "CAT_",
+    "BA_DEF_DEF_",
+    "EV_DATA_",
+    "ENVVAR_DATA_",
+    "SGTYPE_",
+    "SGTYPE_VAL_",
+    "BA_DEF_SGTYPE_",
+    "BA_SGTYPE_",
+    "SIG_TYPE_REF_",
+    "VAL_TABLE_",
+    "SIG_GROUP_",
+    "SIG_VALTYPE_",
+    "SIGTYPE_VALTYPE_",
+    "BO_TX_BU_",
+    "BA_DEF_REL_",
+    "BA_REL_",
+    "BA_DEF_DEF_REL_",
+    "BU_SG_REL_",
+    "BU_EV_REL_",
+    "BU_BO_REL_",
+    "SG_MUL_VAL_"
+  ],
+  "environmentVariables": [
+    {
+      "name": "UnrestrictedEnvVar",
+      "type": "Integer",
+      "initialValue": 0,
+      "min": 0,
+      "max": 0,
+      "evId": 1,
+      "accessNode": "Node0",
+      "accessType": "Unrestricted",
+      "attributes": [],
+      "valueTable": null,
+      "dataBytesLength": null,
+      "description": null,
+      "unit": "Nm"
+    },
+    {
+      "name": "RWEnvVar_wData",
+      "type": "Integer",
+      "initialValue": 60,
+      "min": 0,
+      "max": 1234,
+      "evId": 2,
+      "accessNode": "Node2",
+      "accessType": "ReadWrite",
+      "attributes": [
+        {
+          "name": "RWEnvVar_wData",
+          "type": "EnvironmentVariable",
+          "dataType": "INT",
+          "options": null,
+          "defaultValue": "5",
+          "value": "3",
+          "min": 0,
+          "max": 10
+        }
+      ],
+      "valueTable": {
+        "0": "Value0",
+        "1": "Value1",
+        "2": "Value2"
+      },
+      "dataBytesLength": 10,
+      "description": "This a comment for an environment variable",
+      "unit": ""
+    },
+    {
+      "name": "WriteOnlyEnvVar",
+      "type": "Float",
+      "initialValue": 60,
+      "min": 0,
+      "max": 1234,
+      "evId": 3,
+      "accessNode": "Node2",
+      "accessType": "Write",
+      "attributes": [],
+      "valueTable": {
+        "0": "Value0",
+        "1": "Value1",
+        "2": "Value2"
+      },
+      "dataBytesLength": null,
+      "description": "This a comment for an environment variable",
+      "unit": ""
+    },
+    {
+      "name": "ReadOnlyEnvVar",
+      "type": "Integer",
+      "initialValue": 20,
+      "min": 0,
+      "max": 100,
+      "evId": 4,
+      "accessNode": "Node2",
+      "accessType": "Read",
+      "attributes": [],
+      "valueTable": {
+        "0": "Value0",
+        "1": "Value1",
+        "2": "Value2"
+      },
+      "dataBytesLength": null,
+      "description": "This a comment for an environment variable",
+      "unit": "MPH"
+    }
+  ],
+  "networkBridges": []
 }

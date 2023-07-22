@@ -64,7 +64,6 @@ export const signalsView = {
 
 export const machineView = {
   'type': 'VerticalLayout',
-  "elementLabelProp": "version",
   'elements': [
     {
       'type': 'Control',
@@ -94,7 +93,6 @@ export const dbcSchema = {
     },
 		
 		'messages':{
-			'title': 'Messages',
 			'properties':{
         		'typeId': {
           		'const': 'Message'
@@ -117,16 +115,13 @@ export const dbcSchema = {
            }			
 		},
 		'signals':{
-//			"type": "object",
 			'title': 'Signals',
 			'properties':{
 				'typeId': {
           			'const': 'Signals'
-      //    			"type": "array"
         		},
         			
 				"items": {
-					//"type": "object",
 					"properties": {
 				'typeId': {
           			'const': 'Signals',

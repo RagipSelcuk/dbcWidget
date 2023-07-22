@@ -46,7 +46,7 @@ export class DbcNodeFactory implements TreeEditor.NodeFactory{
         // containments
         if (parent) {
             parent.children.push(node);
-            parent.expanded = true;
+            parent.expanded = false;
         }
         
 // Check if the node's data has "signals" and create child nodes for each signal

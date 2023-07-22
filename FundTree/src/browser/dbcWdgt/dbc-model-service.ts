@@ -16,12 +16,6 @@ export class DbcModelService implements TreeEditor.ModelService{
         return node.jsonforms.data;
     }
 	
-	/*		// automatically implements the generated uischema
-	getSchemaForNode(node: TreeEditor.Node){
-		return undefined;
-	}
-	*/
-	
 	
 	getSchemaForNode(node: TreeEditor.Node){
 		return this.getSchemaForType(node.jsonforms.type)
