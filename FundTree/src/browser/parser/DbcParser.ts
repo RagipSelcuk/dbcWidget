@@ -186,7 +186,6 @@ export default class DbcParser extends Parser {
   private addMessage(dbc: DbcData, data: CanMessage) {
     const can = new Can();
     const message = {} as Message;
-    message.typeId = 'Message';
     message.id = can.isIdExtended(data.id) ? can.unsetExtendedFlag(data.id) : data.id;
     message.extended = can.isIdExtended(data.id);
     message.dlc = data.dlc;

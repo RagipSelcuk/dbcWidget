@@ -107,7 +107,6 @@ export type AdditionalMessageOptions = {
   description?: string;
 };
 export type Message = {
-  typeId: string;	
   name: string;
   id: number;
   extended: boolean;

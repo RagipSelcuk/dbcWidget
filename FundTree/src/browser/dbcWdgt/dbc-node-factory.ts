@@ -40,9 +40,9 @@ export class DbcNodeFactory implements TreeEditor.NodeFactory {
     };
 
    // Check if the node's data has "messages" and create child nodes for each message
-    if (data.children) {
-      const childrenData = data.children as Array<any>;
-      const messagesNode = this.createMessagesNode(childrenData, node);
+    if (data.messages) {
+      const messagesData = data.messages as Array<any>;
+      const messagesNode = this.createMessagesNode(messagesData, node);
       node.children.push(messagesNode);
     }
 
@@ -56,7 +56,7 @@ export class DbcNodeFactory implements TreeEditor.NodeFactory {
     return node;
   }
 private createMessagesNode(
-    childrenData: any[],
+    messagesData: any[],
     parent: TreeEditor.Node
   ): TreeEditor.Node {
     const messagesNode: TreeEditor.Node = {
@@ -66,29 +66,29 @@ private createMessagesNode(
       parent: parent,
       jsonforms: {
         type: "ECU-Messages",
-        data: childrenData,
-        property: "children",
+        data: messagesData,
+        property: "messages",
         index: "0", // As all messages are direct children of the messages node
       },
     };
 
-    childrenData.forEach((childElement, index) => {
+    messagesData.forEach((message, index) => {
       const messageNode: TreeEditor.Node = {
         ...this.defaultNode(),
         editorId: DbcEditorWidget.WIDGET_ID,
-        name: childElement.name || "Unnamed Message",
+        name: message.name || "Unnamed Message",
         parent: messagesNode,
         jsonforms: {
           type: "Message",
-          data: childElement,
-          property: "children",
+          data: message,
+          property: "messages",
           index: index.toFixed(0),
         },
       };
 
       // If the message has "signals", create child nodes for each signal
-      if (childElement.signals) {
-        const signalsData = childElement.signals as Array<any>;
+      if (message.signals) {
+        const signalsData = message.signals as Array<any>;
         signalsData.forEach((signal, signalIndex) => {
           this.createNode(signal, messageNode, "signals", signalIndex);
         });

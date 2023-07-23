@@ -136,7 +136,6 @@ class Dbc {
     }
 
     const message: Message = {
-	  typeId : 'Message',	
       name,
       id,
       extended,

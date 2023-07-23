@@ -177,7 +177,7 @@ export class DbcRawFileCommandHandler implements SingleUriCommandHandler{
 
 const defaultRawData ={
   "version": "1.0",
-  "children": [
+  "messages": [
     {
       "id": 4321,
       "extended": true,
