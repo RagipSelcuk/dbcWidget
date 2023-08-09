@@ -4,9 +4,9 @@ import { TreeEditor } from "@eclipse-emfcloud/theia-tree-editor";
 export namespace DbcModel {
 	
 	export namespace Type{
-		export const TopLevelECU = 'ECU-Dbc';
-		export const MessagesSubTree = 'ECU-Messages';
-		export const NodesSubTree = 'ECU-Nodes'
+		export const TopLevelECU = 'ECU_Dbc';
+		export const MessagesSubTree = 'ECU_Messages';
+		export const NodesSubTree = 'ECU_Nodes'
 		export const Message = 'Message';
 		export const Signals = 'Signal';
 		

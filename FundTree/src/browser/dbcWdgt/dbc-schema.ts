@@ -1,4 +1,39 @@
 
+export const ECU_MessagesView ={
+	"type": "VerticalLayout",
+	"elements": [
+{
+      "type": "Array",
+      "title": "Messages",
+      "items": {
+        "type": "VerticalLayout",
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/id"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/extended"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/dlc"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/name"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/sendingNode"
+          }          
+         ]
+         }
+         }		
+	]
+};	
+	
 	
 export const messagesView = {
   "type": "VerticalLayout",
@@ -75,15 +110,14 @@ export const messagesView = {
   ]
 };
 
+export const signalsView = { 
 
-export const signalsView = {
   "type": "VerticalLayout",
   "elements": [
     {
-      "type": "Control",
-      "scope": "#/properties/name"
-    },
-    {
+      "type": "HorizontalLayout",
+      "elements": [
+ {
       "type": "Control",
       "scope": "#/properties/endian"
     },
@@ -114,7 +148,12 @@ export const signalsView = {
     {
       "type": "Control",
       "scope": "#/properties/offset"
-    }
+    }    
+    
+    
+],
+    },
+    
     // Add other controls for additional signal properties as needed
   ]
 };
@@ -124,6 +163,17 @@ export const signalsView = {
 
 export const dbcSchema = {
 	'definitions':{
+		
+ECU_Messages:{
+  "type": "object",
+  "properties": {
+    "id": { "type": "integer" },
+    "extended": { "type": "boolean" },
+    "dlc": { "type": "integer" },
+    "name": { "type": "string" },
+    "sendingNode": { "type": "string" },
+   } 	
+},		
 messages:{
   "type": "object",
   "properties": {

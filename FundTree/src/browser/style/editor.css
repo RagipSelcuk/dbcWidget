@@ -6,3 +6,7 @@
   flex-grow: 1;
   max-width: 960px; /* Half the width of a full hd display. */
 }
+
+.horizontal-layout-item.horizontal-layout-10 {
+    max-width: 75px;
+}

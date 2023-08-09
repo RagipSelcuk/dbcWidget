@@ -32,7 +32,7 @@ export class DbcNodeFactory implements TreeEditor.NodeFactory {
       name: "ECU",
       parent: parent,
       jsonforms: {
-        type: "ECU-Dbc",
+        type: "ECU_Dbc",
         data: data,
         property: property!,
         index: typeof indexOrKey === 'number' ? indexOrKey.toFixed(0) : indexOrKey
@@ -65,7 +65,7 @@ private createMessagesNode(
       name: "Messages",
       parent: parent,
       jsonforms: {
-        type: "ECU-Messages",
+        type: "ECU_Messages",
         data: messagesData,
         property: "messages",
         index: "0", // As all messages are direct children of the messages node
@@ -107,7 +107,7 @@ private createMessagesNode(
       name: "Nodes",
       parent: parent,
       jsonforms: {
-        type: "ECU-Nodes",
+        type: "ECU_Nodes",
         data: nodesData,
         property: "nodes",
         index: "0", // As all nodes are direct children of the nodes node
