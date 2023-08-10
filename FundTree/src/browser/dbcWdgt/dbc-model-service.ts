@@ -1,7 +1,7 @@
 import { TreeEditor } from "@eclipse-emfcloud/theia-tree-editor";
 import { ILogger } from "@theia/core";
 import { inject, injectable } from "@theia/core/shared/inversify";
-import { dbcSchema, ECU_MessagesView, messagesView, signalsView } from "./dbc-schema";
+import { dbcSchema, messagesView, signalsView } from "./dbc-schema";
 import { DbcModel } from "./dbc-model";
 
 
@@ -26,12 +26,13 @@ export class DbcModelService implements TreeEditor.ModelService{
 		//this.logger.info("Ragip getSchemaForType :" + type);
 		switch(type){
 			case "ECU_Messages":
-				dbcSchema.definitions.ECU_Messages;
+				dbcSchema.properties.messages;
 				return
 				
 			case 'Message':
-				dbcSchema.definitions.messages;
-				return
+				this.logger.warn("Can't find registered schema for type: " + type);
+				//dbcSchema.properties.messages;
+				return undefined;
 				
 			case 'Signal':
 				dbcSchema.definitions.signals;
@@ -49,10 +50,11 @@ export class DbcModelService implements TreeEditor.ModelService{
         switch (type) {
 			case "ECU_Messages":
 			case DbcModel.Type.MessagesSubTree:
-				return ECU_MessagesView;
+				return messagesView;
 				
             case DbcModel.Type.Message:
-                return messagesView;
+				this.logger.warn("Ragip Can't find registered ui schema for type " + type);
+                return undefined;
                 
             case "Signal":    
             case DbcModel.Type.Signals:
