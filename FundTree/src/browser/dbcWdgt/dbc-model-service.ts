@@ -26,13 +26,12 @@ export class DbcModelService implements TreeEditor.ModelService{
 		//this.logger.info("Ragip getSchemaForType :" + type);
 		switch(type){
 			case "ECU_Messages":
-				dbcSchema.properties.messages;
+				this.logger.warn("Can't find registered schema for type: " + type);
 				return
 				
 			case 'Message':
-				this.logger.warn("Can't find registered schema for type: " + type);
-				//dbcSchema.properties.messages;
-				return undefined;
+				dbcSchema.definitions.messages;
+				return
 				
 			case 'Signal':
 				dbcSchema.definitions.signals;
@@ -50,11 +49,12 @@ export class DbcModelService implements TreeEditor.ModelService{
         switch (type) {
 			case "ECU_Messages":
 			case DbcModel.Type.MessagesSubTree:
-				return messagesView;
+				this.logger.warn("Ragip Can't find registered ui schema for type " + type);
+				return undefined;
 				
             case DbcModel.Type.Message:
-				this.logger.warn("Ragip Can't find registered ui schema for type " + type);
-                return undefined;
+                return messagesView;
+                
                 
             case "Signal":    
             case DbcModel.Type.Signals:
