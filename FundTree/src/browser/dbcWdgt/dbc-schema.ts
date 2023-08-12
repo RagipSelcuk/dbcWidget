@@ -1,4 +1,25 @@
-	
+export const messageCanListView = {
+  "type": "VerticalLayout",
+  "elements": [
+    {
+      "type": "Group",
+      "label": "Messages",
+      "elements": [
+        {
+          "type": "VerticalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/messages" // Update the scope to reference the messages array
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+
 export const messagesView = {
   "type": "VerticalLayout",
   "elements": [
@@ -85,7 +106,14 @@ export const signalsView = {
 export const dbcSchema = {
   "type": "object",
   "definitions": {
-    "messages": {
+	
+ "messages": {
+      "type": "array", // Change the type to array
+      "items": { "$ref": "#/definitions/message" } // Change the reference name
+    },
+	
+
+    "message": {
       "type": "object",
       "properties": {
         "name": { "type": "string" },
