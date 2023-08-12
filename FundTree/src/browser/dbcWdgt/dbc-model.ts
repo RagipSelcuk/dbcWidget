@@ -4,9 +4,11 @@ import { TreeEditor } from "@eclipse-emfcloud/theia-tree-editor";
 export namespace DbcModel {
 	
 	export namespace Type{
+		export const TopLevelECU = 'ECU_Dbc';
+		export const MessagesSubTree = 'ECU_Messages';
+		export const NodesSubTree = 'ECU_Nodes'
 		export const Message = 'Message';
-		export const Signals = 'Signals';
-		export const Machine = 'Machine';
+		export const Signals = 'Signal';
 		
 		
 		export function name(type: string): string{
@@ -23,7 +25,7 @@ export namespace DbcModel {
 	 /** Maps types to their creatable children */
     export const childrenMapping: Map<string, TreeEditor.ChildrenDescriptor[]> = new Map([
         [
-            Type.Machine, [
+            Type.Message, [
                 {
                     property: 'children',
                     children: DbcComponents
@@ -31,7 +33,7 @@ export namespace DbcModel {
             ]
         ],
         [
-            Type.Message, [
+            Type.Signals, [
                 {
                     property: 'children',
                     children: DbcComponents

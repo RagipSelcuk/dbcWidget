@@ -97,6 +97,7 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
 			this.logger.info('DBC Raw Data',rawData.description);
 			dbc.toJson({pretty: true});
 			const contentBuffer = BinaryBuffer.fromString(dbc.toJson({pretty: true}));
+			
             this.fileService.createFile(preliminaryFileUri, contentBuffer)
                 .then(_ => this.openerService.getOpener(preliminaryFileUri))
                 .then(openHandler => openHandler.open(preliminaryFileUri));
@@ -174,37 +175,166 @@ export class DbcRawFileCommandHandler implements SingleUriCommandHandler{
 	
 }
 
-const defaultRawData ={  
-  "typeId": "Machine",
-  "version": "2.0",
-  "children": [
+const defaultRawData ={
+  "version": "1.0",
+  "messages": [
     {
-      "typeId": "Message",
       "id": 4321,
-      "busSpeed": 250, 
-      "name": "Message1",
-      "description": "Multiplexed CAN-Message",
-	  "children": [
+      "extended": true,
+      "dlc": 2,
+      "name": "CANMultiplexed",
+      "sendingNode": "Node0",
+      "signals": [
         {
-		  "typeId": "Signal",	
-          "name": "Duru"
-         }
-	  ]      
+          "name": "Value1",
+          "endian": "Intel",
+          "startBit": 8,
+          "length": 8,
+          "signed": false,
+          "max": 0,
+          "min": 0,
+          "factor": 1,
+          "offset": 0,
+          "multiplex": "m1",
+          "multiplexer": false,
+          "receivingNodes": [
+            "Node1"
+          ],
+          "unit": "",
+          "valueTable": {
+            "0": "Zero",
+            "1": "One",
+            "2": "Two",
+            "3": "Three"
+          },
+          "description": null,
+          "attributes": [],
+          "dataType": "uint8"
+        },
+        
+        {
+          "name": "Multiplexer",
+          "endian": "Intel",
+          "startBit": 0,
+          "length": 8,
+          "signed": false,
+          "max": 0,
+          "min": 0,
+          "factor": 1,
+          "offset": 0,
+          "multiplex": "M",
+          "multiplexer": true,
+          "receivingNodes": [
+            "Node0"
+          ],
+          "unit": "",
+          "valueTable": null,
+          "description": null,
+          "attributes": [],
+          "dataType": "uint8"
+        }
+      ],
+      
     },
     {
-      "typeId": "Message",
-      "id": 5678,
-      "name": "Message2",
-      "description": "Standard CAN-Message",
-	  "children": [
+      "id": 1234,
+      "extended": false,
+      "dlc": 8,
+      "name": "CANMessage",
+      "sendingNode": "Node0",
+      "signals": [
         {
-		  "typeId": "Signal",	
-          "name": "Bahar",
-          "endiann": "Little"
-         }
-	  ]      
+          "name": "Signal1",
+          "endian": "Intel",
+          "startBit": 32,
+          "length": 32,
+          "signed": false,
+          "max": 100,
+          "min": 0,
+          "factor": 100,
+          "offset": 0,
+          "multiplex": "",
+          "multiplexer": false,
+          "receivingNodes": [
+            "Node1",
+            "Node2"
+          ],
+          "unit": "%",
+          "valueTable": null,
+          "description": null,
+          "attributes": [],
+          "dataType": "uint32"
+        },
+        {
+          "name": "Signal0",
+          "endian": "Intel",
+          "startBit": 0,
+          "length": 32,
+          "signed": true,
+          "max": 0,
+          "min": 0,
+          "factor": 1,
+          "offset": 0,
+          "multiplex": "",
+          "multiplexer": false,
+          "receivingNodes": [
+            "Node1",
+            "Node2"
+          ],
+          "unit": "",
+          "valueTable": null,
+          "description": "First signal in this message",
+          "attributes": [
+            {
+              "name": "SGEnumAttribute",
+              "type": "Signal",
+              "dataType": "ENUM",
+              "options": [
+                "Val0",
+                "Val1",
+                "Val2"
+              ],
+              "defaultValue": "Val0",
+              "value": "2",
+              "min": null,
+              "max": null
+            }
+          ],
+          "dataType": "int32"
+        }
+      ],
+
+    }
+  ],
+  "description": "DBC Template with multi-",
+  "busSpeed": null,
+  "nodes": [
+    {
+      "name": "Node2",
+      "description": null,
+      "attributes": []
     },
-    	
-]	
-	
+    {
+      "name": "Node1",
+      "description": null,
+      "attributes": []
+    },
+    {
+      "name": "Node0",
+      "description": "The 0th Node",
+      "attributes": [
+        {
+          "name": "BUIntAttribute",
+          "type": "Node",
+          "dataType": "INT",
+          "options": null,
+          "defaultValue": "50",
+          "value": "100",
+          "min": 0,
+          "max": 100
+        }
+      ]
+    }
+  ]
+ 
 }

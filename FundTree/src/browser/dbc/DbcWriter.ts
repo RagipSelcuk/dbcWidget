@@ -35,21 +35,21 @@ class Writer {
     }
 
     // Both messages and signals
-    this.writeMessagesAndSignals(data.children);
+    this.writeMessagesAndSignals(data.messages);
     this.writeMessageTransmitters(data.networkBridges);
 
     // Write all comments
     if (data.description) {
       this.writeBaseComment(data.description);
     }
-    this.writeMessageAndSignalComments(data.children);
+    this.writeMessageAndSignalComments(data.messages);
     this.writeAttributeDefinitions(data);
     this.writeAttributeDefaults(data);
     this.writeAttributeValues(data);
-    this.writeSignalGroups(data.children);
-    this.writeSignalTables(data.children);
+    this.writeSignalGroups(data.messages);
+    this.writeSignalTables(data.messages);
     this.writeEnvVarTables(data.environmentVariables);
-    this.writeSignalDataType(data.children);
+    this.writeSignalDataType(data.messages);
 
     return this.dbcString;
   }
@@ -290,7 +290,7 @@ class Writer {
     });
 
     // Write message attributes
-    const messages = data.children;
+    const messages = data.messages;
     messages.forEach((message) => {
       message.attributes.forEach((value: Attribute, key: string) => {
         this.writeLine(this.createAttributeDefinitionStr(value, 'BO_'));
@@ -341,7 +341,7 @@ class Writer {
     });
 
     // Write message attributes
-    const messages = data.children;
+    const messages = data.messages;
     messages.forEach((message) => {
       message.attributes.forEach((value: Attribute, key: string) => {
         this.writeLine(this.createAttributeDefaultString(value));
@@ -427,7 +427,7 @@ class Writer {
     });
 
     // Write message attributes
-    const messages = data.children;
+    const messages = data.messages;
     messages.forEach((message) => {
       message.attributes.forEach((value: Attribute, key: string) => {
         if (value.defaultValue !== value.value) {

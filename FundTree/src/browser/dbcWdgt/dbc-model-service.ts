@@ -1,7 +1,7 @@
 import { TreeEditor } from "@eclipse-emfcloud/theia-tree-editor";
 import { ILogger } from "@theia/core";
 import { inject, injectable } from "@theia/core/shared/inversify";
-import { dbcSchema, machineView, messagesView, signalsView } from "./dbc-schema";
+import { dbcSchema, messageCanListView, messagesView, signalsView } from "./dbc-schema";
 import { DbcModel } from "./dbc-model";
 
 
@@ -16,42 +16,49 @@ export class DbcModelService implements TreeEditor.ModelService{
         return node.jsonforms.data;
     }
 	
-	// getUiSchemaForNode(node: TreeEditor.Node): MaybePromise<UISchemaElement | undefined> {
-    getSchemaForNode(node: TreeEditor.Node) {
-        return {
-            definitions: dbcSchema.definitions,
-            ...this.getSchemaForType(node.jsonforms.type),
-        };
-    }
+	
+	getSchemaForNode(node: TreeEditor.Node){
+		return this.getSchemaForType(node.jsonforms.type)
+	}
+
+	private getSchemaForType(type: string)
+	{
+		//this.logger.info("Ragip getSchemaForType :" + type);
+		switch(type){
+			case "ECU_Messages":
+				dbcSchema.definitions.messages;
+				return
+				
+			case 'Message':
+				dbcSchema.definitions.message;
+				return
+				
+			case 'Signal':
+				dbcSchema.definitions.signals;
+				return		
+		default:
+        	this.logger.warn("Can't find registered schema for type: " + type);
+        	return undefined;				
+		}
+	}
 	
 
-    private getSchemaForType(type: string) {
-        if (!type) {
-            return undefined;
-        }
-        const schema = Object.entries(dbcSchema.definitions)
-            .map(entry => entry[1])
-            .find(
-                definition =>
-                    definition.properties && definition.properties.typeId.const === type
-            );
-        if (schema === undefined) {
-            this.logger.warn("Can't find definition schema for type " + type);
-        }
-        return schema;
-    }
-
-    getUiSchemaForNode(node: TreeEditor.Node) {
+  
+      getUiSchemaForNode(node: TreeEditor.Node) {
         const type = node.jsonforms.type;
         switch (type) {
+			case DbcModel.Type.MessagesSubTree:				
+				return messageCanListView;
+				
             case DbcModel.Type.Message:
                 return messagesView;
+                
+                
             case DbcModel.Type.Signals:
                 return signalsView;
-            case DbcModel.Type.Machine:
-				return machineView;    
+                
             default:
-                this.logger.warn("Can't find registered ui schema for type " + type);
+                this.logger.warn("Ragip Can't find registered ui schema for type " + type);
                 return undefined;
         }
     }

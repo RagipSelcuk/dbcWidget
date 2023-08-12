@@ -136,7 +136,6 @@ class Dbc {
     }
 
     const message: Message = {
-	  typeId : 'Message',	
       name,
       id,
       extended,
@@ -193,7 +192,7 @@ class Dbc {
    */
   addMessage(message: Message | Message[]) {
     const errorOnDuplicate = (name: string) => {
-      if (this.data.children.has(name)) {
+      if (this.data.messages.has(name)) {
         throw new Error(`Can not add message ${name} as ${name} already exists. Unique message names are required.`);
       }
     };
@@ -201,11 +200,11 @@ class Dbc {
     if (Array.isArray(message)) {
       message.forEach((msg) => {
         errorOnDuplicate(msg.name);
-        this.data.children.set(msg.name, msg);
+        this.data.messages.set(msg.name, msg);
       });
     } else {
       errorOnDuplicate(message.name);
-      this.data.children.set(message.name, message);
+      this.data.messages.set(message.name, message);
     }
   }
 
@@ -214,7 +213,7 @@ class Dbc {
    * @param messageName Name of the message to remove
    */
   removeMessage(messageName: string) {
-    const ret = this.data.children.delete(messageName);
+    const ret = this.data.messages.delete(messageName);
     if (!ret) throw new Error(`${messageName} does not exist in the database`);
   }
 
@@ -334,7 +333,7 @@ class Dbc {
    * @param signal Signal object to be added to the specified message
    */
   addSignal(messageName: string, signal: Signal | Signal[]) {
-    const message = this.data.children.get(messageName);
+    const message = this.data.messages.get(messageName);
     if (message) {
       if (Array.isArray(signal)) {
         signal.forEach((sig) => {
@@ -358,7 +357,7 @@ class Dbc {
    * @throws MessageDoesNotExist
    */
   getMessageById(id: number): Message {
-    const messages = this.data.children;
+    const messages = this.data.messages;
     for (const [, message] of messages) {
       if (message.id === id) {
         return message;
@@ -377,7 +376,7 @@ class Dbc {
    */
   getMessageByName(name: string) {
     try {
-      return this.data.children.get(name);
+      return this.data.messages.get(name);
     } catch (e) {
       throw new MessageDoesNotExist(`No message with name ${name} exists in the database.`);
     }
@@ -648,9 +647,8 @@ class Dbc {
 
   initDbcDataObj(): DbcData {
     return {
-	  typeId: 'Machine',	
       version: null,
-      children: new Map(),
+      messages: new Map(),
       description: null,
       busSpeed: null,
       nodes: new Map(),

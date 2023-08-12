@@ -57,10 +57,9 @@ export type Signal = {
 export type TxMessages = string[];
 export type CanId = number;
 export type NetworkBridges = Map<CanId, TxMessages>;
-export type DbcData = {
-  typeId: string,	
+export type DbcData = {	
   version: string | null;
-  children: Map<string, Message>;
+  messages: Map<string, Message>;
   description: string | null;
   busSpeed: number | null;
   nodes: Map<string, Node>;
@@ -108,7 +107,6 @@ export type AdditionalMessageOptions = {
   description?: string;
 };
 export type Message = {
-  typeId: string;	
   name: string;
   id: number;
   extended: boolean;

@@ -1,6 +1,7 @@
 import { TreeEditor } from "@eclipse-emfcloud/theia-tree-editor";
+import { ILogger } from "@theia/core";
 import { LabelProviderContribution } from "@theia/core/lib/browser";
-import { injectable } from "@theia/core/shared/inversify";
+import { inject, injectable } from "@theia/core/shared/inversify";
 import { DbcEditorWidget } from "./dbc-editor-widget";
 import { DbcModel } from "./dbc-model";
 
@@ -8,8 +9,10 @@ const DEFAULT_COLOR = 'white';
 
 
 const ICON_CLASSES: Map<string, string> = new Map([
-    [DbcModel.Type.Machine, 'fa-fire ' + DEFAULT_COLOR],
-    [DbcModel.Type.Signals, 'fa-server ' + DEFAULT_COLOR],
+    [DbcModel.Type.TopLevelECU, 'fa-fire ' + DEFAULT_COLOR],
+    [DbcModel.Type.MessagesSubTree, 'fa-server ' + DEFAULT_COLOR],
+    [DbcModel.Type.NodesSubTree, 'fa-microchip ' + DEFAULT_COLOR],
+    [DbcModel.Type.Signals, 'fa-tv ' + DEFAULT_COLOR],
     [DbcModel.Type.Message, 'fa-inbox ' + DEFAULT_COLOR],
 ]);
 
@@ -19,6 +22,8 @@ const UNKNOWN_ICON = 'fa-question-circle ' + DEFAULT_COLOR;
 
 @injectable()
 export class DbcLabelProvider implements LabelProviderContribution{
+	
+	constructor(@inject(ILogger) private readonly logger: ILogger) { }
 	
     public canHandle(element: object): number {
         if ((TreeEditor.Node.is(element) || TreeEditor.CommandIconInfo.is(element))
@@ -36,6 +41,18 @@ export class DbcLabelProvider implements LabelProviderContribution{
             iconClass = ICON_CLASSES.get(element.jsonforms.type);
         }
 
+ if (!iconClass) {
+            // Log the missing icon
+            const elementTypeName = TreeEditor.CommandIconInfo.is(element)
+                ? element.type
+                : TreeEditor.Node.is(element)
+                ? element.jsonforms.type
+                : "Unknown";
+
+            this.logger.warn(`Ragip Icon class not found for element type: ${elementTypeName}`);
+        }
+
+
         return iconClass ? 'fa ' + iconClass : 'fa ' + UNKNOWN_ICON;
     }
     
@@ -43,15 +60,10 @@ export class DbcLabelProvider implements LabelProviderContribution{
         const data = TreeEditor.Node.is(element) ? element.jsonforms.data : element;
         if (data.name) {
             return data.name;
-        } else if (data.typeId) {
-            return this.getTypeName(data.typeId);
-        }
+        } 
 
         return undefined;
     }
-    
-    private getTypeName(typeId: string): string {
-        return DbcModel.Type.name(typeId);
-    }        	
+      	
 	
 }
