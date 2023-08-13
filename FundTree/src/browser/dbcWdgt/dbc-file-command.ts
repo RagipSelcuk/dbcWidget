@@ -311,12 +311,12 @@ const defaultRawData ={
   "nodes": [
     {
       "name": "Node2",
-      "description": null,
+      "description": "The 2th Node",
       "attributes": []
     },
     {
       "name": "Node1",
-      "description": null,
+      "description": "The 1th Node",
       "attributes": []
     },
     {

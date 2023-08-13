@@ -79,7 +79,7 @@ private createMessagesNode(
         name: message.name || "Unnamed Message",
         parent: messagesNode,
         jsonforms: {
-          type: "Message",
+          type: "messages",
           data: message,
           property: "messages",
           index: index.toFixed(0),
@@ -134,7 +134,7 @@ private createMessagesNode(
       name: data.name || "Unnamed",
       parent: parent,
       jsonforms: {
-        type: "Signal",
+        type: "signals",
         data: data,
         property: property,
         index: index.toFixed(0),
