@@ -38,10 +38,7 @@ export const messagesView = {
       "type": "Group",
       "label": "Signals",
       "elements": [
-		{
-          "type": "HorizontalLayout",
-          "scope": "#/properties/signals" // 			
-		}		  
+	  
 		]		
 	},
     { // Transmitters 
@@ -141,7 +138,7 @@ export const dbcSchema = {
   "definitions": {
 
 
-    "message": {
+    "messages": {
       "type": "object",
       "properties": {
         "name": { "type": "string" },
@@ -150,7 +147,7 @@ export const dbcSchema = {
         "sendingNode": { "type": "string" },
         "extended": { "type": "boolean" },
         "description": { "type": "string" },
-        "signals": {
+    /*    "signals": {
 		   'type': 'array', // Table view (array) Schema
 		   'items':{
 			   "oneOf": [
@@ -170,6 +167,7 @@ export const dbcSchema = {
                 },	
 
         }
+        */
       },
       'additionalProperties': false,
     },

@@ -29,7 +29,7 @@ export class DbcModelService implements TreeEditor.ModelService{
 		//		return dbcSchema.definitions.messages;
 				
 			case DbcModel.Type.Message:
-				return dbcSchema.definitions.message;
+				return dbcSchema.definitions.messages;
 				
 			case DbcModel.Type.Signals:
 				return dbcSchema.definitions.signals;
