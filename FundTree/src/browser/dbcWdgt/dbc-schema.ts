@@ -23,33 +23,86 @@ export const messageCanListView = {
 export const messagesView = {
   "type": "VerticalLayout",
   "elements": [
-    {
+    { // Definitions
       "type": "Group",
-      "label": "Message",
+      "label": "Definition",
       "elements": [
             {
               "type": "Control",
-              "scope": "#/properties/id"
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/extended"
-            },
-            {
-              "type": "Control",
-              "scope": "#/properties/dlc"
-            },
-            {
-              "type": "Control",
+              "label": 'Name',
               "scope": "#/properties/name"
             },
             {
               "type": "Control",
+              "label": 'Type',
+              "scope": "#/properties/extended"
+            },
+            {
+              "type": "Control",
+              "label": 'ID',
+              "scope": "#/properties/id"
+            },
+            {
+              "type": "Control",
+              "label": 'DLC',
+              "scope": "#/properties/dlc"
+            },
+            {
+              "type": "Control",
+              "label": 'Transmitter',
               "scope": "#/properties/sendingNode"
             }
       ]
-    }
-  ]
+    },
+    { // Signals 
+      "type": "Group",
+      "label": "Signals",
+      "elements": [
+		{
+          "type": "HorizontalLayout",
+          "scope": "#/properties/signals" // 			
+		}		  
+		]		
+	},
+    { // Transmitters 
+      "type": "Group",
+      "label": "Transmitters",
+      "elements": [
+		]		
+	},
+    { // Receivers 
+      "type": "Group",
+      "label": "Receivers",
+      "elements": [
+		]		
+	},
+    { // Layout 
+      "type": "Group",
+      "label": "Layout",
+      "elements": [
+		]		
+	},
+    { // Attributes 
+      "type": "Group",
+      "label": "Attributes",
+      "elements": [
+		]		
+	},
+    { // Comment 
+      "type": "Group",
+      "label": "Comment",
+      "elements": [{
+            "type": "Control",
+            "label": "",
+	  		"scope": "#/properties/description",         
+			"options": {
+	                "multi": true // Wide Text Box uischema
+	         }            
+		  
+		}
+		]
+	}
+  ] // end of elements
 };
 
 
@@ -121,7 +174,29 @@ export const dbcSchema = {
         "id": { "type": "integer" },
         "sendingNode": { "type": "string" },
         "extended": { "type": "boolean" },
-      }
+        "description": { "type": "string" },
+        "signals": {
+		   'type': 'array', // Table view (array) Schema
+		   'items':{
+			   "oneOf": [
+				      { 
+	                    'type':'object',
+	                    'properties':{
+	                        'name':{
+	                            'type':'string'
+	                        }
+	                    }
+						  
+					  },
+				      { 
+          				"$ref": '#/definitions/signals'						  
+					   }
+				    ]
+                },	
+
+        }
+      },
+      'additionalProperties': false,
     },
 	  
     "signals": {
