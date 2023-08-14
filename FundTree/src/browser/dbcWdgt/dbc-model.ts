@@ -7,8 +7,8 @@ export namespace DbcModel {
 		export const TopLevelECU = 'ECU_Dbc';
 		export const MessagesSubTree = 'ECU_Messages';
 		export const NodesSubTree = 'ECU_Nodes'
-		export const Message = 'Message';
-		export const Signals = 'Signal';
+		export const Message = 'messages';
+		export const Signals = 'signals';
 		
 		
 		export function name(type: string): string{
