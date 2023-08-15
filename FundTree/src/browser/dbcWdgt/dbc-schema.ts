@@ -26,11 +26,6 @@ export const messagesView = {
               "type": "Control",
               "label": 'DLC',
               "scope": "#/properties/dlc"
-            },
-            {
-              "type": "Control",
-              "label": 'Transmitter',
-              "scope": "#/properties/sendingNode"
             }
       ]
     },
@@ -38,13 +33,22 @@ export const messagesView = {
       "type": "Group",
       "label": "Signals",
       "elements": [
-	  
+		  {
+              "type": "Control",
+              "label": "",
+              "scope": "#/properties/signals"			  			  
+		  }
 		]		
 	},
     { // Transmitters 
       "type": "Group",
       "label": "Transmitters",
       "elements": [
+		  {
+              "type": "Control",
+              "label": "",
+              "scope": "#/properties/sendingNode"			  
+		  }
 		]		
 	},
     { // Receivers 
@@ -147,27 +151,20 @@ export const dbcSchema = {
         "sendingNode": { "type": "string" },
         "extended": { "type": "boolean" },
         "description": { "type": "string" },
-    /*    "signals": {
-		   'type': 'array', // Table view (array) Schema
-		   'items':{
-			   "oneOf": [
-				      { 
-	                    'type':'object',
-	                    'properties':{
-	                        'name':{
-	                            'type':'string'
-	                        }
-	                    }
-						  
-					  },
-				      { 
-          				"$ref": '#/definitions/signals'						  
-					   }
-				    ]
-                },	
-
-        }
-        */
+	    "signals": {
+	      "type": "array",
+	      "items": {
+	        "type": "object",
+	        "properties": {
+		        "name": { "type": "string" },
+		        "endian": { "type": "string", "enum": ["Intel", "BigEndian"] },
+		        "startBit": { "type": "integer" },
+		        "length": { "type": "integer" },
+		        "signed": { "type": "boolean" }
+	        }
+	      }
+	    },
+        
       },
       'additionalProperties': false,
     },
