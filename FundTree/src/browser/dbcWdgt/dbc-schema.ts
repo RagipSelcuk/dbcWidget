@@ -160,7 +160,10 @@ export const dbcSchema = {
 		        "endian": { "type": "string", "enum": ["Intel", "BigEndian"] },
 		        "startBit": { "type": "integer" },
 		        "length": { "type": "integer" },
-		        "signed": { "type": "boolean" }
+		        "signed": {
+			      "type": "boolean",
+			      "enum": [true, false]	// Here, we intend to display "Signed" if the value is "true"; otherwise, it should display "Unsigned".
+			    }
 	        }
 	      }
 	    },
