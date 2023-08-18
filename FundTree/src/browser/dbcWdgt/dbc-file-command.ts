@@ -202,10 +202,11 @@ const defaultRawData ={
           ],
           "unit": "",
           "valueTable": {
-            "0": "Zero",
-            "1": "One",
-            "2": "Two",
-            "3": "Three"
+            "0": "Empty",
+            "1": "Half",
+            "2": "Quarter",
+            "3": "Full",
+            "4": "notEnabled"
           },
           "description": null,
           "attributes": [],
@@ -228,7 +229,7 @@ const defaultRawData ={
             "Node0"
           ],
           "unit": "",
-          "valueTable": null,
+		  "valueTable": null,
           "description": null,
           "attributes": [],
           "dataType": "uint8"
@@ -282,7 +283,12 @@ const defaultRawData ={
             "Node2"
           ],
           "unit": "",
-          "valueTable": null,
+		  "valueTable": {
+            "0": "notAcive",
+            "1": "active",
+            "2": "reservedForSAEAssignment",
+            "3": "notAvaliable"
+          },
           "description": "First signal in this message",
           "attributes": [
             {

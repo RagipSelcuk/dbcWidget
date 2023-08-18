@@ -56,6 +56,7 @@ export const messagesView = {
       "type": "Group",
       "label": "Receivers",
       "elements": [
+  
 		]		
 	},
     { // Message Layout 
@@ -151,6 +152,11 @@ export const signalsView = {
       "type": "Group",
       "label": "Receivers",
       "elements": [
+		  {
+              "type": "Control",
+              "label": "",
+              "scope": "#/properties/receivingNodes"			  
+		  }				  
 		]		
 	},
     { // Signal Attributes
@@ -161,8 +167,12 @@ export const signalsView = {
 	},
     { // Signal Value Descriptions
       "type": "Group",
-      "label": "Value Descripttions",
+      "label": "Value Descriptions",
       "elements": [
+			{
+          "type": "Control",
+          "scope": "#/properties/valueTable"			
+			}
 		]		
 	},
     { // Signal Comment
@@ -239,8 +249,11 @@ export const dbcSchema = {
     "receivingNodes": { "type": "array", "items": { "type": "string" } },
     "unit": { "type": "string" },
     "valueTable": {
-      "type": "object",
-      "additionalProperties": { "type": "string" }
+	  "type": "array",
+	  "items": { "type": "string" },
+	  "additionalProperties": {
+        "type": "string"
+      }
     },
     "description": { "type": ["string", "null"] },
     "attributes": {
