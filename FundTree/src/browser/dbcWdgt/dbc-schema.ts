@@ -249,12 +249,17 @@ export const dbcSchema = {
     "receivingNodes": { "type": "array", "items": { "type": "string" } },
     "unit": { "type": "string" },
     "valueTable": {
-	  "type": "array",
-	  "items": { "type": "string" },
-	  "additionalProperties": {
-        "type": "string"
-      }
-    },
+      "type": "array",
+      "items":{
+	  "type": "object",   
+	   "properties": {
+		   "valueName": { "type": "string", "title": "Value" },
+		   "valueDesc": { "type": "string", "title": "Description" }
+       }
+      },
+	 'additionalProperties': false,     
+	},
+	
     "description": { "type": ["string", "null"] },
     "attributes": {
       "type": "array",

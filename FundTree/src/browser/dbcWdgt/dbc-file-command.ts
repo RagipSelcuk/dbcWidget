@@ -201,13 +201,28 @@ const defaultRawData ={
             "Node1"
           ],
           "unit": "",
-          "valueTable": {
-            "0": "Empty",
-            "1": "Half",
-            "2": "Quarter",
-            "3": "Full",
-            "4": "notEnabled"
-          },
+          "valueTable": [
+			  {
+				  "valueName": "0",
+				  "valueDesc": "Empty"
+			  },
+			  {
+				  "valueName": "1",
+				  "valueDesc": "Half"
+			  },
+			  {
+				  "valueName": "2",
+				  "valueDesc": "Quarter"
+			  },
+			  {
+				  "valueName": "3",
+				  "valueDesc": "Full"
+			  },
+			  {
+				  "valueName": "4",
+				  "valueDesc": "notEnabled"
+			  }
+          ],
           "description": null,
           "attributes": [],
           "dataType": "uint8"
