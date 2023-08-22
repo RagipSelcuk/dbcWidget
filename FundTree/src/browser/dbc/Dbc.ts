@@ -618,10 +618,18 @@ class Dbc {
    * @returns JSON representation of loaded DBC data
    */
   toJson(options?: { pretty?: boolean; preserveFormat?: boolean }) {
+	  
     const replacer = (key: any, value: any) => {
       if (value instanceof Map) {
         if (key === 'valueTable' || key === 'valueTables') {
-          return Object.fromEntries(value.entries());
+			const jsonArray = [];
+			
+			for (const [key, val] of value.entries()) {
+  			  jsonArray.push({ key, value: val });
+  			}
+  
+			return jsonArray;
+          //return Object.fromEntries(value.entries());
         }
         return Array.from(value.values()); // or with spread: value: [...value]
       } else {
