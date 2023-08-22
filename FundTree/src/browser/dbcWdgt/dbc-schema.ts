@@ -140,11 +140,6 @@ export const signalsView = {
               "type": "Control",
               "label": 'Maximum:', 
               "scope": "#/properties/max"
-            },
-            {
-              "type": "Control",
-              "label": 'Value Table:', 
-              "scope": "#/properties/valueTable"
             }
       ]
     },
@@ -248,18 +243,16 @@ export const dbcSchema = {
     "multiplexer": { "type": "boolean" },
     "receivingNodes": { "type": "array", "items": { "type": "string" } },
     "unit": { "type": "string" },
-    "valueTable": {
-      "type": "array",
-      "items":{
-	  "type": "object",   
-	   "properties": {
-		   "valueName": { "type": "string", "title": "Value" },
-		   "valueDesc": { "type": "string", "title": "Description" }
-       }
-      },
-	 'additionalProperties': false,     
+	"valueTable":{
+		"type": "array",
+		"items": {
+			"type":"object",
+			"properties": {
+				"key": { "type": "number", "title": "Value" },
+				"value": { "type": "string" , "title": "Description"}
+			}
+		}
 	},
-	
     "description": { "type": ["string", "null"] },
     "attributes": {
       "type": "array",

@@ -202,26 +202,22 @@ const defaultRawData ={
           ],
           "unit": "",
           "valueTable": [
-			  {
-				  "valueName": "0",
-				  "valueDesc": "Empty"
-			  },
-			  {
-				  "valueName": "1",
-				  "valueDesc": "Half"
-			  },
-			  {
-				  "valueName": "2",
-				  "valueDesc": "Quarter"
-			  },
-			  {
-				  "valueName": "3",
-				  "valueDesc": "Full"
-			  },
-			  {
-				  "valueName": "4",
-				  "valueDesc": "notEnabled"
-			  }
+            {
+              "key": 3,
+              "value": "Notvalid"
+            },
+            {
+              "key": 2,
+              "value": "EmptyOfPwdsThsSttIndctsThtCmpnn"
+            },
+            {
+              "key": 1,
+              "value": "FullofPwds"
+            },
+            {
+              "key": 0,
+              "value": "OkThsSttIndctsThtRqWsSccssfllyP"
+            }
           ],
           "description": null,
           "attributes": [],
@@ -276,7 +272,24 @@ const defaultRawData ={
             "Node2"
           ],
           "unit": "%",
-          "valueTable": null,
+          "valueTable": [
+            {
+              "key": 3,
+              "value": "NotAvailable"
+            },
+            {
+              "key": 2,
+              "value": "Error"
+            },
+            {
+              "key": 1,
+              "value": "RandomNumberIsPresent"
+            },
+            {
+              "key": 0,
+              "value": "RandomNumberIsNotPresent"
+            }
+          ],
           "description": null,
           "attributes": [],
           "dataType": "uint32"
@@ -298,12 +311,24 @@ const defaultRawData ={
             "Node2"
           ],
           "unit": "",
-		  "valueTable": {
-            "0": "notAcive",
-            "1": "active",
-            "2": "reservedForSAEAssignment",
-            "3": "notAvaliable"
-          },
+          "valueTable": [
+            {
+              "key": 3,
+              "value": "NotDefined"
+            },
+            {
+              "key": 2,
+              "value": "BlckdThsSttIndctsThtALckUnlckCm"
+            },
+            {
+              "key": 1,
+              "value": "LckdThsSttIndctsThtCmpnntCnNOTB"
+            },
+            {
+              "key": 0,
+              "value": "UnlckdThsSttIndctsThtCmpnntCnBS"
+            }
+          ],
           "description": "First signal in this message",
           "attributes": [
             {
