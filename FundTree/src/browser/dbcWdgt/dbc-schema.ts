@@ -89,6 +89,8 @@ export const messagesView = {
 };
 
 
+
+
 export const signalsView = { 
   "type": "VerticalLayout",
   "elements": [
@@ -123,6 +125,12 @@ export const signalsView = {
             },
             {
               "type": "Control",
+              "label": 'Data Type:', 
+              "scope": "#/properties/dataType"
+            },
+            
+            {
+              "type": "Control",
               "label": 'Factor:', 
               "scope": "#/properties/factor"
             },
@@ -154,12 +162,20 @@ export const signalsView = {
 		  }				  
 		]		
 	},
-    { // Signal Attributes
+    /*{ // Signal Attributes  couldn't find a way to display the enum (comboList) in a cell!!
       "type": "Group",
       "label": "Attributes",
       "elements": [
+		  {
+			  "type": "Control",
+			  "label": "",
+			  "scope": "#/properties/attributes",
+			  "options": {
+        		    "enum": { "$data": "options" } // Dynamic enum values from JSON data
+        	  }
+		  }
 		]		
-	},
+	},*/
     { // Signal Value Descriptions
       "type": "Group",
       "label": "Value Descriptions",
@@ -254,7 +270,7 @@ export const dbcSchema = {
 		}
 	},
     "description": { "type": ["string", "null"] },
-    "attributes": {
+    "attributes": {		//  couldn't find a way to display the enum (comboList) in a cell!!
       "type": "array",
       "items": {
         "type": "object",
@@ -262,7 +278,12 @@ export const dbcSchema = {
           "name": { "type": "string" },
           "type": { "type": "string" },
           "dataType": { "type": "string" },
-          "options": { "type": "array", "items": { "type": "string" } },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "defaultValue": { "type": "string" },
           "value": { "type": "string" },
           "min": { "type": "number" },
@@ -270,7 +291,7 @@ export const dbcSchema = {
         }
       }
     },
-    "dataType": { "type": "string" }
+    "dataType": { "type": "string", "enum": ["uint8", "uint16","uint32","int8", "int16","int32" ] }
       }
     }    
   }

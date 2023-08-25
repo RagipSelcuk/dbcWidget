@@ -220,7 +220,40 @@ const defaultRawData ={
             }
           ],
           "description": null,
-          "attributes": [],
+		  "attributes": [
+            {
+              "name": "SigType",
+              "type": "Signal",
+              "dataType": "ENUM",
+              "options": [
+                "Default",
+                "Range",
+                "RangeSigned",
+                "ASCII",
+                "Discrete",
+                "Control",
+                "ReferencePGN",
+                "DTC",
+                "StringDelimiter",
+                "StringLength",
+                "StringLengthControl"
+              ],
+              "defaultValue": "Default",
+              "value": "1",
+              "min": null,
+              "max": null
+            },
+            {
+              "name": "SPN",
+              "type": "Signal",
+              "dataType": "INT",
+              "options": null,
+              "defaultValue": "0",
+              "value": "1366",
+              "min": 0,
+              "max": 524287
+            }
+          ],
           "dataType": "uint8"
         },
         
