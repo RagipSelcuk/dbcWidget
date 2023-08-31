@@ -12,6 +12,8 @@ import {
   Message,
   MultiplexSignals,
   Node,
+  nodeMessage,
+  NodeTxMessages,
   RequiredAttributeProps,
   Signal,
   SignalGroups,
@@ -60,38 +62,62 @@ class Dbc {
     this.data.description = description;
   }
 
-  createNode(name: string, options?: { description?: string; attributes?: Attributes }) {
-    let description: string | null;
+  createTxMessage(name: string, id: number, dlc: number, extended: boolean){	  
+
+	  const nodeMessage : nodeMessage ={
+          name,
+          id,
+          extended,
+          dlc
+      };
+	  return nodeMessage;
+  }
+
+
+  createNode(name: string, options?: { description?: string; attributes?: Attributes; txMessages?:nodeMessage }) {
+    let description: string | null;    
     let attributes: Attributes;
+  	let txMessages: NodeTxMessages;
+//  	let message: nodeMessage;
+  	
+  
+  	txMessages =new Map(); 
+  	if(options && options.txMessages){
+	//	  message = options?.txMessages;
+		//  txMessages.set(message.name,message);
+	  }
+  
     options && options.description ? (description = options.description) : (description = null);
     options && options.attributes ? (attributes = options.attributes) : (attributes = new Map());
+    
     const node: Node = {
-      name,
-      description,
-      attributes,
-      add: () => {
-        this.data.nodes.set(node.name, node);
-        return node;
-      },
-      updateDescription: (content: string) => {
-        node.description = content;
-        return node;
-      },
-      addAttribute: (
-        attrName: string,
-        type: AttributeDataType,
-        attrProps?: RequiredAttributeProps,
-        attrOptions?: AdditionalAttributeObjects,
-      ) => {
-        if (attrProps) {
-          attrProps.type = 'Node';
-        } else {
-          attrProps = { type: 'Node' };
-        }
-        const attr = this.createAttribute(attrName, type, attrProps, attrOptions);
-        this.addAttribute(attr, { node: node.name });
-        return node;
-      },
+        name,
+        description,
+        attributes,
+        txMessages,
+        add: () => {
+            this.data.nodes.set(node.name, node);
+            return node;
+        },
+        updateDescription: (content: string) => {
+            node.description = content;
+            return node;
+        },
+        addAttribute: (
+            attrName: string,
+            type: AttributeDataType,
+            attrProps?: RequiredAttributeProps,
+            attrOptions?: AdditionalAttributeObjects
+        ) => {
+            if (attrProps) {
+                attrProps.type = 'Node';
+            } else {
+                attrProps = { type: 'Node' };
+            }
+            const attr = this.createAttribute(attrName, type, attrProps, attrOptions);
+            this.addAttribute(attr, { node: node.name });
+            return node;
+        },
     };
     return node;
   }
@@ -134,6 +160,8 @@ class Dbc {
     if (sendingNode) {
       this.createNode(sendingNode).add();
     }
+  
+
 
     const message: Message = {
       name,
@@ -161,7 +189,6 @@ class Dbc {
         return message;
       },
       updateNode: (node: string) => {
-        message.sendingNode = node;
         this.createNode(node).add();
         return message;
       },
@@ -256,6 +283,7 @@ class Dbc {
     options && options.valueTable ? (valueTable = options.valueTable) : (valueTable = null);
     options && options.attributes ? (attributes = options.attributes) : (attributes = new Map());
     dataType = computeDataType(length, signed, isFloat);
+
 
     if (receivingNodes.length) {
       receivingNodes.forEach((node: string) => {
@@ -469,7 +497,7 @@ class Dbc {
     };
     return attribute;
   }
-
+ 
   /**
    * Adds an existing attribute to the DBC data based on the supplied type
    * @param attribute Attribute
@@ -578,6 +606,7 @@ class Dbc {
       const parseErrors = parser.parseResult.errs;
       if (parseErrors.length === 0) {
         data = parser.updateData(data);
+        
       } else {
         if (throwOnError) {
           throw new Error(`A syntax error occurred on line ${lineNum} - Reason: ${parseErrors}`);
@@ -591,6 +620,55 @@ class Dbc {
     Array.from(data.attributes.entries()).forEach(([key, attribute]) => {
       if (attribute.type !== 'Global') data.attributes.delete(key);
     });
+
+/*	 
+	// Create a map to store node messages
+const nodeMessages: NodeTxMessages = new Map();
+
+// Iterate through nodes
+Array.from(data.nodes.entries()).forEach((nodeEntry) => {
+  const [nodeKey, node] = nodeEntry;
+	if(nodeKey){
+		
+	}
+	
+ const nodeMess: nodeMessage[] = [
+	 {
+    name: "Message1",
+    id: 123,
+    extended: true,
+    dlc: 8,
+  },
+ ];	
+  // Check if the node has messages
+  if (!nodeMessages.has(node.name)) {
+    nodeMessages.set(node.name, nodeMess);
+  }
+
+  // Iterate through messages
+  Array.from(data.messages.entries()).forEach((messageEntry) => {
+    const [messageKey, message] = messageEntry;
+	if(messageKey){}
+    // Check if the node sends the message
+    if (node.name === message.sendingNode) {
+      // Create nodeMessage object
+      const nodeMessage: nodeMessage[] =[ {
+        name: message.name,
+        id: message.id,
+        extended: message.extended,
+        dlc: message.dlc,
+      }];
+
+      // Add nodeMessage to the node's messages
+     
+      
+      
+      nodeMessages.set(node.name, nodeMessage);
+    }
+  });
+});
+
+*/
 
     // Set parsing errors
     this.errors = errMap;
@@ -621,6 +699,7 @@ class Dbc {
 	  
     const replacer = (key: any, value: any) => {
       if (value instanceof Map) {
+		
         if (key === 'valueTable' || key === 'valueTables') {
 			const jsonArray = [];
 			

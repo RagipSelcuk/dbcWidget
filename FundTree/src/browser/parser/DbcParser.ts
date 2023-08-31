@@ -152,6 +152,7 @@ export default class DbcParser extends Parser {
       node.name = nodeName;
       node.description = null;
       node.attributes = new Map();
+      //node.txMessages =	ragip you should check this line. 
       if (node.name !== '') {
         dbc.nodes.set(nodeName, node);
       }
@@ -521,6 +522,7 @@ export default class DbcParser extends Parser {
   private addMessageTransmitter(dbc: DbcData, data: MessageTransmitter) {
     const can = new Can();
     const canId = can.isIdExtended(data.id) ? can.unsetExtendedFlag(data.id) : data.id;
+    
     dbc.networkBridges.set(canId, data.nodes);
   }
 

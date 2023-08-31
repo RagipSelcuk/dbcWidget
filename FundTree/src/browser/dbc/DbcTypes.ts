@@ -9,6 +9,7 @@ export type SignalGroup = {
 };
 export type MultiplexSignals = Map<string, MultiplexSignal>;
 export type Signals = Map<string, Signal>;
+export type Messages = string[];
 export type AdditionalSignalOptions = {
   signed?: boolean;
   endian?: EndianType;
@@ -93,6 +94,15 @@ export type Attribute = {
   min: number | null;
   max: number | null;
 };
+
+export type NodeTxMessages = Map<string, nodeMessage[]>;
+export type nodeMessage ={
+  name: string;
+  id: number;
+  extended: boolean;
+  dlc: number;
+		
+};
 export type MultiplexSignal = {
   signal: Signal;
   children: Map<number, MultiplexSignal[]>;
@@ -159,6 +169,7 @@ export type EnvironmentVariable = {
 export type Node = {
   name: string;
   description: string | null;
+  txMessages: NodeTxMessages;	// I'm here.
   attributes: Attributes;
   add: () => Node;
   updateDescription: (content: string) => Node;
