@@ -41,6 +41,7 @@ import {
   Message,
   MultiplexSignal,
   Node,
+  nodeMessage,
   Signal,
   ValueTable,
 } from '../dbc/DbcTypes';
@@ -146,13 +147,46 @@ export default class DbcParser extends Parser {
     dbc.description = data.comment;
   }
 
+
+  private createTxMessage(name: string, id: number, dlc: number, extended: boolean){	  
+
+	  const nodeMessage : nodeMessage ={
+          name,
+          id,
+          extended,
+          dlc
+      };
+	  return nodeMessage;
+  }
+  
+  
   private addNode(dbc: DbcData, data: CanNode) {
     data.node_names.forEach((nodeName: string) => {
       const node = {} as Node;
       node.name = nodeName;
       node.description = null;
+      node.txMessages = new Map();
       node.attributes = new Map();
-      //node.txMessages =	ragip you should check this line. 
+      
+      // here is create the txMessages without checking the created messages.
+      
+      if (node.name !== '') {
+		  const msgName = this.getMessageNameFromSendingNode(dbc, node.name);
+		  if (msgName) {
+      		const msg = dbc.messages.get(msgName);
+      		if(msg !== undefined){
+				node.txMessages.set(node.name,this.createTxMessage(msg.name,msg.id,msg.dlc,msg.extended));	  
+			 }
+			 else{
+				 // message is undefined yet
+				 // in case of known  of the last received data on dbc, update method may be used.
+				node.txMessages.set("BAHAR",this.createTxMessage(msgName,404,8,false));	 
+			 }
+			 	
+      	  }
+
+	  }
+	  
       if (node.name !== '') {
         dbc.nodes.set(nodeName, node);
       }
@@ -594,6 +628,20 @@ export default class DbcParser extends Parser {
         return 'Read';
     }
   }
+
+  private getMessageNameFromSendingNode(dbc: DbcData, sendingNode: string): string{
+	  const msgNames = Array.from(dbc.messages.keys());
+	  let msgName: string = "msgNoF";
+    for (const name of msgNames) {
+      const msg = dbc.messages.get(name);
+      if(msg && msg.sendingNode == sendingNode)
+      {
+		  msgName = name;
+		  break;
+	  }
+    }
+    return msgName;
+  } 
 
   private getMessageNameFromId(dbc: DbcData, id: number): string | null {
     const msgNames = Array.from(dbc.messages.keys());

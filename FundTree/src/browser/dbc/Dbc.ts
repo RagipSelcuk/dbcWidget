@@ -74,19 +74,28 @@ class Dbc {
   }
 
 
-  createNode(name: string, options?: { description?: string; attributes?: Attributes; txMessages?:nodeMessage }) {
+
+
+
+  createNode(name: string, options?: { description?: string; attributes?: Attributes; }) {
     let description: string | null;    
     let attributes: Attributes;
   	let txMessages: NodeTxMessages;
-//  	let message: nodeMessage;
+
   	
-  
-  	txMessages =new Map(); 
-  	if(options && options.txMessages){
-	//	  message = options?.txMessages;
-		//  txMessages.set(message.name,message);
+  	//const msgName = this.getMessageNameFromSendingNode(name);
+  	txMessages = new Map();
+  	
+  	txMessages.set(name,this.createTxMessage(name,987,3,true));
+  /*
+  	if(msgName){
+		const msg = this.getMessageByName(msgName);	
+		if(msg){
+			txMessages.set(name,this.createTxMessage(msg.name,msg.id,msg.dlc,msg.extended));
+		}	
 	  }
-  
+  	*/
+  	
     options && options.description ? (description = options.description) : (description = null);
     options && options.attributes ? (attributes = options.attributes) : (attributes = new Map());
     
@@ -412,6 +421,35 @@ class Dbc {
 
   /**
    *
+   * Finds a specific message name within the DBC file data by NodeName
+   *
+   * @param nodeName string
+   * @returns Message Name
+   * @error MessageDoesNotExist
+   */
+  getMessageNameFromSendingNode(nodeName: string){
+	  const msgNames = Array.from(this.data.messages.keys());
+	  let msgName: string | null = null;
+	  
+try{	  
+    for (const name of msgNames) {
+      const msg = this.data.messages.get(name);
+      if(msg && msg.sendingNode == nodeName)
+      {
+		  msgName = name;
+		  break;
+	  }
+    }
+    return msgName;
+   }catch (ex){
+	   throw new MessageDoesNotExist(`No message  with node name ${nodeName} exists in the database.`);
+   }
+    
+  } 
+  
+
+  /**
+   *
    * Returns a signal object located in a specific CAN message by name
    *
    * @param name string
@@ -621,55 +659,6 @@ class Dbc {
       if (attribute.type !== 'Global') data.attributes.delete(key);
     });
 
-/*	 
-	// Create a map to store node messages
-const nodeMessages: NodeTxMessages = new Map();
-
-// Iterate through nodes
-Array.from(data.nodes.entries()).forEach((nodeEntry) => {
-  const [nodeKey, node] = nodeEntry;
-	if(nodeKey){
-		
-	}
-	
- const nodeMess: nodeMessage[] = [
-	 {
-    name: "Message1",
-    id: 123,
-    extended: true,
-    dlc: 8,
-  },
- ];	
-  // Check if the node has messages
-  if (!nodeMessages.has(node.name)) {
-    nodeMessages.set(node.name, nodeMess);
-  }
-
-  // Iterate through messages
-  Array.from(data.messages.entries()).forEach((messageEntry) => {
-    const [messageKey, message] = messageEntry;
-	if(messageKey){}
-    // Check if the node sends the message
-    if (node.name === message.sendingNode) {
-      // Create nodeMessage object
-      const nodeMessage: nodeMessage[] =[ {
-        name: message.name,
-        id: message.id,
-        extended: message.extended,
-        dlc: message.dlc,
-      }];
-
-      // Add nodeMessage to the node's messages
-     
-      
-      
-      nodeMessages.set(node.name, nodeMessage);
-    }
-  });
-});
-
-*/
-
     // Set parsing errors
     this.errors = errMap;
 
@@ -708,7 +697,6 @@ Array.from(data.nodes.entries()).forEach((nodeEntry) => {
   			}
   
 			return jsonArray;
-          //return Object.fromEntries(value.entries());
         }
         return Array.from(value.values()); // or with spread: value: [...value]
       } else {

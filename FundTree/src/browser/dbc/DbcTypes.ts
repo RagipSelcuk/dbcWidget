@@ -95,7 +95,7 @@ export type Attribute = {
   max: number | null;
 };
 
-export type NodeTxMessages = Map<string, nodeMessage[]>;
+export type NodeTxMessages = Map<string, nodeMessage>;
 export type nodeMessage ={
   name: string;
   id: number;
