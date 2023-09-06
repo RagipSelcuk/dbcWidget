@@ -3789,9 +3789,9 @@ electron-to-chromium@^1.4.284:
   integrity sha512-L9zlje9bIw0h+CwPQumiuVlfMcV4boxRjFIWDcLfFqTZNbkwOExBzfmswytHawObQX4OUhtNv8gIiB21kOurIg==
 
 electron@^23.2.4:
-  version "23.3.1"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-23.3.1.tgz#8ffe35c363948f1da4278ff8fa8d129e89bd67bf"
-  integrity sha512-N+xGMPwK733BU6xn1qs2t/AE3wKEqhWYLvPqWEu6TRC8yQvf7PNNjtgBTPZ9R0GhtrRgu6kUTX3HSV3UG9r/Dw==
+  version "23.3.13"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-23.3.13.tgz#bd2ae8eef83d1ed9504410fbe03598176c5f8817"
+  integrity sha512-BaXtHEb+KYKLouUXlUVDa/lj9pj4F5kiE0kwFdJV84Y2EU7euIDgPthfKtchhr5MVHmjtavRMIV/zAwEiSQ9rQ==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^16.11.26"
@@ -8532,6 +8532,7 @@ workerpool@6.2.1:
   integrity sha512-ILEIE97kDZvF9Wb9f6h5aXK4swSlKGUcOEGiIYb2OOu/IrDU9iwj0fD//SsA6E5ibwJxpEvhullJY4Sl4GcpAw==
 
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+  name wrap-ansi-cjs
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
