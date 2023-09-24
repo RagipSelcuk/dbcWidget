@@ -87,14 +87,6 @@ class Dbc {
   	txMessages = new Map();
   	
   	txMessages.set(name,this.createTxMessage(name,987,3,true));
-  /*
-  	if(msgName){
-		const msg = this.getMessageByName(msgName);	
-		if(msg){
-			txMessages.set(name,this.createTxMessage(msg.name,msg.id,msg.dlc,msg.extended));
-		}	
-	  }
-  	*/
   	
     options && options.description ? (description = options.description) : (description = null);
     options && options.attributes ? (attributes = options.attributes) : (attributes = new Map());
@@ -127,6 +119,16 @@ class Dbc {
             this.addAttribute(attr, { node: node.name });
             return node;
         },
+        addNodeMessage: (
+		  	name: string,
+  			id: number,
+  			extended: boolean,
+  			dlc: number
+		) => {
+			const nodeMsg = this.createTxMessage(name,id,dlc,extended);
+			node.txMessages.set(name,nodeMsg);
+			return node;			
+		},
     };
     return node;
   }

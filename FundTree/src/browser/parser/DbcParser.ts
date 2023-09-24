@@ -55,7 +55,7 @@ export default class DbcParser extends Parser {
     this.parseResult = this.parse();
   }
 
-  updateData(data: DbcData) {
+	updateData(data: DbcData) {
     if (this.hasKindProp(this.parseResult.ast)) {
       switch (this.parseResult.ast.kind) {
         case ASTKinds.CanMessage:
@@ -75,6 +75,9 @@ export default class DbcParser extends Parser {
           break;
         case ASTKinds.Val:
           this.addVal(data, this.parseResult.ast);
+    // addNodeMessage content
+  //  this.addNodeMessage(data);
+          
           break;
         case ASTKinds.ValTable:
           this.addValTable(data, this.parseResult.ast);
@@ -138,6 +141,7 @@ export default class DbcParser extends Parser {
           break;
       }
     }
+    
     return data;
   }
 
@@ -159,6 +163,19 @@ export default class DbcParser extends Parser {
 	  return nodeMessage;
   }
   
+  /*
+  private addNodeMessage(dbc: DbcData){
+	  const msgNames = Array.from(dbc.messages.keys());
+	  
+	  for (const name of msgNames) {
+      	const msg = dbc.messages.get(name);
+      	if((msg !== undefined) && (msg.sendingNode !== null)){
+			  const node = dbc.nodes.get(msg.sendingNode);
+			  node?.addNodeMessage(msg.name,msg.id,msg.extended,msg.dlc);
+		  }
+	  }
+  }
+  */
   
   private addNode(dbc: DbcData, data: CanNode) {
     data.node_names.forEach((nodeName: string) => {

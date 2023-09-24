@@ -179,4 +179,10 @@ export type Node = {
     attrProps?: RequiredAttributeProps,
     attrOptions?: AdditionalAttributeObjects,
   ) => Node;
+	addNodeMessage:(
+  	name: string,
+  	id: number,
+  	extended: boolean,
+  	dlc: number,
+  ) => Node;
 };
