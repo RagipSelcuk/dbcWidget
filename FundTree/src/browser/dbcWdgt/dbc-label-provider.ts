@@ -59,9 +59,10 @@ export class DbcLabelProvider implements LabelProviderContribution{
     public getName(element: object): string | undefined {
         const data = TreeEditor.Node.is(element) ? element.jsonforms.data : element;
         if (data.name) {
+          //  this.logger.info("this is what you've clicked: "+data.name);
             return data.name;
         } 
-
+        
         return undefined;
     }
       	
