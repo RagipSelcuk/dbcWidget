@@ -3,6 +3,9 @@ import { inject, injectable } from "inversify";
 import { FileService } from "@theia/filesystem/lib/browser/file-service";
 import { URI } from '@theia/core/lib/common/uri';
 import { TreeEditor } from "@eclipse-emfcloud/theia-tree-editor";
+import { DbcNodeFactory } from "../dbcWdgt/dbc-node-factory";
+import { BinaryBuffer } from "@theia/core/lib/common/buffer";
+import { DbcModelService } from "../dbcWdgt/dbc-model-service";
 @injectable()
 export default class DbcUpdateData {
     constructor(
@@ -11,40 +14,38 @@ export default class DbcUpdateData {
     ) {}
 
     updateSchema() {
-        this.logger.info("WE ARE IN UPDATE DATA");
-        this.createFile();    
+        this.getLabelData();
         }
+      	
+    getLabelData(){
+        //get all the nodes
+        const nodeFactory=new DbcNodeFactory(this.logger);
+        const node: TreeEditor.Node = nodeFactory.getTreeNode();
 
-    getData(element: object): string | undefined{
+        //get the datas of nodes
+        const modelService= new DbcModelService(this.logger);
+        const data= modelService.getDataForNode(node);
+        this.createFile(data);    
+    }
 
-        const data = TreeEditor.Node.is(element) ? element.jsonforms.data : element;
-        if(data){this.logger.info("data is: "+data);
-            return data;}
-        else{this.logger.warn("data is null");}
+    //create a test file to write the json format of node datas
+    private async  createFile(data: any){
+        
+         if(data){
+            //convert the data to json format
+            const jsonData = JSON.stringify(data, null, 2);;
 
-        }
-
-    private async  createFile(){
-        //const data=this.getData();
-
-        // Create a URI from the given file path
-        const fileUri = new URI("/Users/didarnurbilgin/Projects/dbcWidget/to-see-files/");
-        const targetUri = fileUri.withPath(fileUri.path + 'updated-dbc-schema.json');
-
-        /* if(data){
-           // const jsonData = JSON.stringify(data, null, 2);
-           this.logger.info("JSON DATA: ");
-            // Create a URI from the given file path
+            //create a URI from the given file path
             const fileUri = new URI("/Users/didarnurbilgin/Projects/dbcWidget/to-see-files/");
             const targetUri = fileUri.withPath(fileUri.path + 'updated-dbc-schema.json');
 
-            // Write the data to a test file
+            //write the data to a test file
             const contentBuffer = BinaryBuffer.fromString(jsonData);
             await this.fileService.createFile(targetUri, contentBuffer, { overwrite: true });
 
             this.logger.info('DBC Schema has been written to: ' + targetUri.toString());
         } else {
-            this.logger.error("data is null.");
-        }*/
+            this.logger.error("Data is null.");
+        }
     }
 }
