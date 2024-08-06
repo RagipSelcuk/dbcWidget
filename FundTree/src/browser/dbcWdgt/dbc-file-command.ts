@@ -1,4 +1,4 @@
-import { Command, ILogger, MessageService, URI } from "@theia/core";
+import { Command, ILogger, MessageService, QuickInputService, URI } from "@theia/core";
 import { OpenerService, SingleTextInputDialog } from "@theia/core/lib/browser";
 import { BinaryBuffer } from "@theia/core/lib/common/buffer";
 import { SingleUriCommandHandler } from "@theia/core/lib/common/uri-command-handler";
@@ -8,8 +8,6 @@ import { FileService } from "@theia/filesystem/lib/browser/file-service";
 import { FileSystemUtils } from "@theia/filesystem/lib/common";
 import { WorkspaceService } from "@theia/workspace/lib/browser";
 import Dbc from "../dbc/Dbc";
-
-
 
 
 
@@ -50,7 +48,9 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
         @inject(MessageService)
         protected readonly messageService: MessageService,
         @inject(FileDialogService)
-        protected readonly fileDialogService: FileDialogService
+        protected readonly fileDialogService: FileDialogService,
+        @inject(QuickInputService)
+    protected readonly quickInputService: QuickInputService
     ) { }
     
 
@@ -77,7 +77,7 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
         const targetUri = dir.resource.resolve('dbc_template.dbc');
         const preliminaryFileUri = FileSystemUtils.generateUniqueResourceURI(dir, targetUri, false);
         this.logger.info('Target Uri Address: ',targetUri);
-        this.logger.info('Preliminary File Uri: ',preliminaryFileUri)
+        this.logger.info('Preliminary File Uri: ',preliminaryFileUri);
         
         let dbcContent = 'string';
         if(extensionUri)
@@ -92,17 +92,17 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
 			dbcContent = (await this.fileService.read(extensionUri)).value;
 			const dbc = new Dbc();
 			
-			this.logger.info('Dbc Empty Content\n',dbc.toJson({pretty: true}));
-			const rawData = dbc.load(dbcContent,false);
+			const rawData = dbc.load(dbcContent,true);
 			this.logger.info('DBC Raw Data',rawData.description);
-			dbc.toJson({pretty: true});
+		    dbc.toJson({pretty: true});
 			const contentBuffer = BinaryBuffer.fromString(dbc.toJson({pretty: true}));
 			
             this.fileService.createFile(preliminaryFileUri, contentBuffer)
                 .then(_ => this.openerService.getOpener(preliminaryFileUri))
                 .then(openHandler => openHandler.open(preliminaryFileUri));
 			
-			
+			// const dbcUpdateData=new DbcUpdateData(this.logger,this.messageService,this.quickInputService);
+            // dbcUpdateData.updateSchema();
 			// save as a json format
 			
 			// open and gather the uri address

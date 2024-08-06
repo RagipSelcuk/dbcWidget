@@ -1,3 +1,9 @@
+# Dbc Editor
+This project aims to the creation of any kind of CAN database editor.
+
+![image](https://github.com/RagipSelcuk/dbcWidget/assets/6311780/392a5793-e926-4060-8434-21f3439b7973)
+
+
 # FundTree
 The example of how to build the Theia-based applications with the FundTree.
 

@@ -52,6 +52,7 @@ export default class DbcParser extends Parser {
   constructor(rawString: string) {
     super(rawString);
     this.parseResult = this.parse();
+    
   }
 
   updateData(data: DbcData) {

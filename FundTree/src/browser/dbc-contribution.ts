@@ -30,13 +30,11 @@ export class DbcContribution extends BaseTreeEditorContribution{
     }	
     registerCommands(commands: CommandRegistry): void {
         // register your custom commands here
-
         super.registerCommands(commands);
     }
 
     registerMenus(menus: MenuModelRegistry): void {
         // register your custom menu actions here
-
         super.registerMenus(menus);
     }
 
