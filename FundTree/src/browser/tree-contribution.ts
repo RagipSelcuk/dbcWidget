@@ -31,7 +31,6 @@ export class TreeContribution extends BaseTreeEditorContribution {
 
     registerCommands(commands: CommandRegistry): void {
         // register your custom commands here
-
         super.registerCommands(commands);
     }
 
