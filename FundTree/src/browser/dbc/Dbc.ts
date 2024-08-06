@@ -21,7 +21,6 @@ import {
 import Writer from './DbcWriter';
 import { MessageDoesNotExist, SignalDoesNotExist } from './DbcErrors';
 
-
 /**
  * Creates a DBC instance that allows for parsing/loading of an existing DBC file
  * or write data to a new DBC file.
@@ -42,7 +41,8 @@ class Dbc {
   data: DbcData;
   errors: Map<number, SyntaxError[]> = new Map();
 
-  constructor() {
+  constructor( 
+  ) {
     this.data = this.initDbcDataObj();
   }
 
@@ -666,7 +666,8 @@ class Dbc {
       environmentVariables: new Map(),
       networkBridges: new Map(),
     };
-  }
+}
+
 }
 export default Dbc;
 
