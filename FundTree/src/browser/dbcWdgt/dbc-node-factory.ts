@@ -5,20 +5,32 @@ import { v4 } from "uuid";
 import { DbcEditorWidget } from "./dbc-editor-widget";
 import { DbcModel } from "./dbc-model";
 
+
 @injectable()
 export class DbcNodeFactory implements TreeEditor.NodeFactory {
+     public static nodeRef: TreeEditor.Node ;
   constructor(
     @inject(ILogger) private readonly logger: ILogger
   ) {}
 
+ 
+
+
+
   // Method to map tree data to nodes in the tree
   mapDataToNodes(treeData: TreeEditor.TreeData): TreeEditor.Node[] {
-    const node = this.mapData(treeData.data);
-    if (node) {
-      return [node];
+    DbcNodeFactory.nodeRef = this.mapData(treeData.data);
+    if (DbcNodeFactory.nodeRef) {
+        this.getTreeNode();
+      return [DbcNodeFactory.nodeRef];
     }
     return [];
   }
+
+    getTreeNode(){
+        return DbcNodeFactory.nodeRef;
+
+    }
 
   // Method to map individual data to a node in the tree
   mapData(data: any, parent?: TreeEditor.Node, property?: string, indexOrKey?: number | string): TreeEditor.Node {

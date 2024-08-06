@@ -20,6 +20,7 @@ class Can extends BitUtils {
   constructor() {
     super();
     this.idMap = new Map();
+
   }
 
   /**
@@ -292,8 +293,9 @@ class Can extends BitUtils {
         }
       },
     };
-
     return boundMessage as BoundMessage;
   }
+
 }
+
 export default Can;
