@@ -25,7 +25,6 @@ import { DbcLabelProvider } from './dbcWdgt/dbc-label-provider';
 import { DbcLabelProviderContribution } from './dbc-label-provider-contribution';
 
 
-
 export default new ContainerModule(bind => {
 
 	// Bind Theia IDE contributions for the DBC File reading menu entry
@@ -43,6 +42,8 @@ export default new ContainerModule(bind => {
 	bind(CommandContribution).to(DbcContribution);
 	bind(LabelProviderContribution).to(DbcLabelProvider);
 	
+    //
+
 	// bind services to themselves because we use them outside of the editor widget, too.
 	bind(DbcModelService).toSelf().inSingletonScope();
 	bind(DbcLabelProvider).toSelf().inSingletonScope();

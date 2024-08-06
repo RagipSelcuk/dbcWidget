@@ -10,7 +10,8 @@ import { DbcModel } from "./dbc-model";
 @injectable()
 export class DbcModelService implements TreeEditor.ModelService{
 	
-	constructor(@inject(ILogger) private readonly logger: ILogger) { }
+	constructor(@inject(ILogger) private readonly logger: ILogger,
+) { }
 	
 	getDataForNode(node: TreeEditor.Node) {
         return node.jsonforms.data;
@@ -40,7 +41,7 @@ export class DbcModelService implements TreeEditor.ModelService{
 		}
 	}
 	
-
+   
   
       getUiSchemaForNode(node: TreeEditor.Node) {
         const type = node.jsonforms.type;
