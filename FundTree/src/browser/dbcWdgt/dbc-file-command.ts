@@ -89,18 +89,24 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
 			this.logger.info('File directory',extensionUri.toString(true));
 			
 			// read the dbc as a string value
+		//	dbcContent = (await this.fileService.read(extensionUri,"string")).value;
 			dbcContent = (await this.fileService.read(extensionUri)).value;
+			this.logger.info('DBC CONTENT : is OK1');
 			const dbc = new Dbc();
-			
-			const rawData = dbc.load(dbcContent,true);
-			this.logger.info('DBC Raw Data',rawData.description);
+			this.logger.info('DBC INSTANCE is OK2 ');
+			dbc.load(dbcContent,true,this.logger);
+			//this.logger.info('DBC Raw Data',rawData.description);
+			this.logger.info('DBC INSTANCE is OK3 ');
 		    dbc.toJson({pretty: true});
+			this.logger.info('DBC INSTANCE is OK4 ');
 			const contentBuffer = BinaryBuffer.fromString(dbc.toJson({pretty: true}));
-			
+			this.logger.info('DBC INSTANCE is OK5 ');
             this.fileService.createFile(preliminaryFileUri, contentBuffer)
                 .then(_ => this.openerService.getOpener(preliminaryFileUri))
                 .then(openHandler => openHandler.open(preliminaryFileUri));
 			
+			
+			this.logger.info('DBC INSTANCE is OK6 ');
 			// const dbcUpdateData=new DbcUpdateData(this.logger,this.messageService,this.quickInputService);
             // dbcUpdateData.updateSchema();
 			// save as a json format

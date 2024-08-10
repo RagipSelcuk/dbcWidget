@@ -20,6 +20,7 @@ import {
 } from './DbcTypes';
 import Writer from './DbcWriter';
 import { MessageDoesNotExist, SignalDoesNotExist } from './DbcErrors';
+import { ILogger } from '@theia/core';
 
 /**
  * Creates a DBC instance that allows for parsing/loading of an existing DBC file
@@ -40,6 +41,7 @@ import { MessageDoesNotExist, SignalDoesNotExist } from './DbcErrors';
 class Dbc {
   data: DbcData;
   errors: Map<number, SyntaxError[]> = new Map();
+    
 
   constructor( 
   ) {
@@ -566,7 +568,7 @@ class Dbc {
    * @param throwOnError
    * @returns DbcData Data contained in the dbc file
    */
-  load(fileContent: string, throwOnError: boolean = false): DbcData {
+  load(fileContent: string, throwOnError: boolean = false, logger : ILogger): DbcData {
     let data = this.initDbcDataObj();
 
     let lineNum = 1;
@@ -580,11 +582,13 @@ class Dbc {
         data = parser.updateData(data);
       } else {
         if (throwOnError) {
-          throw new Error(`A syntax error occurred on line ${lineNum} - Reason: ${parseErrors}`);
+         // throw new Error(`A syntax error occurred on line ${lineNum} - Reason: ${parseErrors}`);
+          logger.info('BDC.ts : A syntax error occurred on line',lineNum, ' - Reason ',parseErrors);
         }
         errMap.set(lineNum, parseErrors);
       }
       lineNum++;
+      
     });
 
     // Clean up attributes that are not global/scoped
