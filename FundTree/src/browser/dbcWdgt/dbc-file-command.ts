@@ -77,7 +77,7 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
         const targetUri = dir.resource.resolve('dbc_template.dbc');
         const preliminaryFileUri = FileSystemUtils.generateUniqueResourceURI(dir, targetUri, false);
         this.logger.info('Target Uri Address: ',targetUri);
-        this.logger.info('Preliminary File Uri: ',preliminaryFileUri);
+        this.logger.info('PreliminaryAAAAAAAAAa File Uri: ',preliminaryFileUri);
         
         let dbcContent = 'string';
         if(extensionUri)
@@ -86,7 +86,7 @@ export class DbcFileCommandHandler implements SingleUriCommandHandler{
 			if(extensionUri.path.ext == '.dbc')
 			{
 				
-			this.logger.info('File dir',extensionUri.toString(true));
+			this.logger.info('File directory',extensionUri.toString(true));
 			
 			// read the dbc as a string value
 			dbcContent = (await this.fileService.read(extensionUri)).value;

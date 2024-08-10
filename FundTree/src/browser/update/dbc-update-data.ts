@@ -21,7 +21,7 @@ export default class DbcUpdateData {
         }
       	
     getLabelData(){
-        const jsonToDbc=new JsonToDbc (this.logger,this.fileService);
+        const jsonToDbc=new JsonToDbc (this.logger);
 
         //get all the nodes
         const nodeFactory=new DbcNodeFactory(this.logger);

@@ -1,5 +1,5 @@
 import { ILogger, QuickInputService, SelectionService } from "@theia/core";
-import { CommonCommands, Tree } from "@theia/core/lib/browser";
+import { CommonCommands } from "@theia/core/lib/browser";
 import { CommandContribution, CommandRegistry } from "@theia/core/lib/common/command";
 import { MAIN_MENU_BAR, MenuContribution, MenuModelRegistry } from "@theia/core/lib/common/menu";
 import { inject, injectable } from "@theia/core/shared/inversify";
